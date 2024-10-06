@@ -1,0 +1,30 @@
+.button {
+  padding: 8.5px 35px;
+  background-color: var(--primary-green);
+  color: var(--white);
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative; 
+  transition: transform 0.1s ease; 
+  box-shadow: 0 5px 0 0 black; 
+}
+
+.button:active {
+  transform: translateY(5px);
+}
+
+.button:hover {
+  background-color: var(--accent-green); 
+}
+
+
+.secondary {
+  background-color: var(--neutral-grey); 
+  box-shadow: 0 5px 0 0 var(--primary-green); 
+}
+
+.secondary:hover {
+  background-color: var(--accent-green); 
+}

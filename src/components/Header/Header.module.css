@@ -1,0 +1,29 @@
+.navBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 28px;
+  border: 1px black solid;
+  position: sticky;
+  top: 0;
+  z-index: 1000; 
+  background-color: var(--white);
+}
+
+.logoContainer {
+  flex: 1;
+}
+
+.tabsContainer {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.profileGroupContainer {
+  flex: 1;
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+}

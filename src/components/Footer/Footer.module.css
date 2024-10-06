@@ -1,0 +1,22 @@
+.footer {
+  margin-top: auto;
+  background-color: var(--neutral-grey);
+  padding: 60px 80px 20px;
+  color: var(--white);
+}
+
+.infoContainer {
+  display: flex;
+  gap: 20px
+}
+
+.featInfoContainer {
+  gap: 20px;
+  flex: 1
+}
+
+.contactInfoContainer {
+  flex: 1;
+  gap: 20px;
+
+}

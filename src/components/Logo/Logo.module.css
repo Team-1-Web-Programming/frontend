@@ -1,0 +1,6 @@
+.logoContainer {
+  background-color: var(--white);
+  padding: 9px 16px;
+  display: inline-block;
+  border-radius: 10px;
+}

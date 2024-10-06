@@ -1,0 +1,47 @@
+.container {
+  margin: 20px;
+  max-width: 613px;
+}
+
+.firstLayer,
+.secondLayer,
+.thirdLayer {
+  border-radius: 20px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.firstLayer {
+  border-color: black;
+  position: relative;
+}
+
+.secondLayer {
+  border-color: var(--primary-green);
+  position: relative;
+  top: -30px;
+  right: -30px;
+  background-color: var(--primary-green);
+}
+
+.thirdLayer {
+  border-color: var(--white);
+  top: -30px;
+  right: -30px;
+  padding: 76px 65px 16px;
+  position: relative;
+}
+
+.leavesContainer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 270px;
+}
+/* .leaves {
+  
+} */
+.ilustration {
+    border-radius: 20px;
+
+}
