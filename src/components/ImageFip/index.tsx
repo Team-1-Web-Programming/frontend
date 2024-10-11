@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./ImageFlip.module.css";
 import Image from "next/image";
 
@@ -15,13 +15,26 @@ export default function ImageFlip(props?: any) {
   const [backImage, setBackImage] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
-  const [mode, setMode] = useState(0);
+  const modeRef = useRef("back"); // grrrrrr
 
   const handleFlip = () => {
     if (!isFlipping) {
       setIsFlipping(true);
-      setMode((prev) => prev + 1);
       setRotation((prevRotation) => prevRotation + 180);
+
+      if (modeRef.current === "front") {
+        // When front is flipping to back, update back image for the next round
+        setTimeout(() => {
+          setBackImage((prevBack) => (prevBack + 2) % images.length);
+          modeRef.current = "back";
+        }, 300); // 1/2 total anim duration delay to sync with half the flip
+      } else if (modeRef.current === "back") {
+        setTimeout(() => {
+          setFrontImage((prevFront) => (prevFront + 2) % images.length);
+          modeRef.current = "front";
+        }, 300);
+      }
+
       setTimeout(() => {
         setIsFlipping(false);
       }, 600);
@@ -29,15 +42,12 @@ export default function ImageFlip(props?: any) {
   };
 
   useEffect(() => {
-    if (mode < 2) return;
-    if (mode % 2 === 0) {
-      // back visible
-      setFrontImage((prevFront) => (prevFront + 2) % images.length);
-    } else {
-      // front visible
-      setBackImage((prevBack) => (prevBack + 2) % images.length);
-    }
-  }, [mode]);
+    const flipInterval = setInterval(() => {
+      handleFlip();
+    }, 10000);
+
+    return () => clearInterval(flipInterval);
+  }, []);
 
   return (
     <div className={styles.scene} onClick={handleFlip}>
