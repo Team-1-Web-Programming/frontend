@@ -1,3 +1,18 @@
 .container {
     display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 90px 100px;
+}
+
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    gap: 30px
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px
 }
