@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" style={{height: '100%'}}>
       <body className={montserrat.className} style={{height: '100%' , position: "relative" }}>
         <Header />
-        <div style={{ minHeight: "70vh" }}>{children}</div>
+        <div style={{ minHeight: "100%" }}>{children}</div>
         <Footer />
       </body>
     </html>
