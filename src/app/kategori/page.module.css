@@ -1,0 +1,11 @@
+        
+.pillGroup {
+    display: inline-flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.search {
+    padding: 10px;
+    border-radius: 100px;
+}
