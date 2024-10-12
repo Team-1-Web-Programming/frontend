@@ -1,54 +1,54 @@
-import React from 'react';
-import { Doughnut } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import React from "react";
+import { Doughnut } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChart = () => {
+const CircularChart = () => {
   const data = {
-    labels: ['Diklaim', 'Ditambahkan'],
     datasets: [
       {
-        label: 'Diklaim', 
-        data: [80, 20],
-        backgroundColor: ['#4CAF50', '#F0F4F8'], 
+        // Diklaim
+        label: "Outer Circle",
+        data: [75, 25],
+        backgroundColor: ["#55B76B", "#E0E0E0"],
         borderWidth: 0,
-        cutout: '75%', 
+        cutout: "50%",
       },
       {
-        label: 'Ditambahkan', 
-        data: [60, 40],
-        backgroundColor: ['#8BC34A', '#F0F4F8'], 
+        label: "Inner Circle",
+        data: [50, 50],
+        backgroundColor: ["#AEE0BD", "#E0E0E0"],
         borderWidth: 0,
-        cutout: '85%', 
-        radius: '80%', 
+        cutout: "50%",
+        radius: "50%",
       },
     ],
   };
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'bottom',
+        display: true,
+        position: "bottom" as any,
         labels: {
           usePointStyle: true,
-          padding: 20,
+          boxWidth: 8,
         },
       },
       tooltip: {
-        enabled: true,
+        enabled: false,
       },
     },
-    maintainAspectRatio: false,
-    cutoutPercentage: 80,
   };
 
   return (
-    <div style={{ width: '250px', height: '250px' }}>
+    <div style={{ width: 200, height: 200 }}>
       <Doughnut data={data} options={options} />
     </div>
   );
 };
 
-export default DoughnutChart;
+export default CircularChart;

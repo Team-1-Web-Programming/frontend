@@ -122,6 +122,7 @@ const DonasiAnalisisChart = () => {
     responsive: true,
     scales: {
       y: {
+        type: 'linear', // Specify the type of the scale
         min: 0,
         max: 100,
         grid: {
@@ -177,28 +178,33 @@ const DonasiAnalisisChart = () => {
       intersect: false,
     },
   };
+  
 
   const verticalLinePlugin = {
     id: "verticalLine",
     afterDraw: (chart) => {
-      if (chart.tooltip._active && chart.tooltip._active.length) {
-        const ctx = chart.ctx;
-        const activePoint = chart.tooltip._active[0];
-        const x = activePoint.element.x;
-        const y = activePoint.element.y;
-        const bottomY = chart.scales.y.bottom;
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x, bottomY);
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = "rgba(0, 123, 255, 0.2)";
-        ctx.stroke();
-        ctx.restore();
+      // Check if the chart type has a y-axis before proceeding
+      if (!chart.scales?.y || !chart.tooltip._active || !chart.tooltip._active.length) {
+        return; // Exit if there's no y-axis or no active tooltip
       }
+  
+      const ctx = chart.ctx;
+      const activePoint = chart.tooltip._active[0];
+      const x = activePoint.element.x;
+      const y = activePoint.element.y;
+      const bottomY = chart.scales.y.bottom;
+  
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x, bottomY);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(0, 123, 255, 0.2)";
+      ctx.stroke();
+      ctx.restore();
     },
   };
+  
 
   ChartJS.register(verticalLinePlugin);
 
