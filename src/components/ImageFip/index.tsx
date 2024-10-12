@@ -15,7 +15,7 @@ export default function ImageFlip(props?: any) {
   const [backImage, setBackImage] = useState(1);
   const [rotation, setRotation] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
-  const modeRef = useRef("back"); // grrrrrr
+  const modeRef = useRef("back");
 
   const handleFlip = () => {
     if (!isFlipping) {
@@ -23,11 +23,10 @@ export default function ImageFlip(props?: any) {
       setRotation((prevRotation) => prevRotation + 180);
 
       if (modeRef.current === "front") {
-        // When front is flipping to back, update back image for the next round
         setTimeout(() => {
           setBackImage((prevBack) => (prevBack + 2) % images.length);
           modeRef.current = "back";
-        }, 300); // 1/2 total anim duration delay to sync with half the flip
+        }, 300);
       } else if (modeRef.current === "back") {
         setTimeout(() => {
           setFrontImage((prevFront) => (prevFront + 2) % images.length);
@@ -42,11 +41,36 @@ export default function ImageFlip(props?: any) {
   };
 
   useEffect(() => {
-    const flipInterval = setInterval(() => {
-      handleFlip();
-    }, 10000);
+    let flipInterval: NodeJS.Timeout | null = null;
 
-    return () => clearInterval(flipInterval);
+    const startFlipInterval = () => {
+      flipInterval = setInterval(() => {
+        handleFlip();
+      }, 5000);
+    };
+
+    const stopFlipInterval = () => {
+      if (flipInterval) {
+        clearInterval(flipInterval);
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopFlipInterval();
+      } else {
+        startFlipInterval();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    startFlipInterval(); // Start interval when component mounts
+
+    return () => {
+      stopFlipInterval();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, []);
 
   return (
