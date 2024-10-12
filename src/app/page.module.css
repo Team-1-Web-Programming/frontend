@@ -7,6 +7,9 @@
 .titleContainer,
 .decorationContainer {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .decorationContainer {
@@ -24,4 +27,5 @@
 
 .sectionBlogs {
   background-color: var(--primary-green);
+  padding: 40px;
 }

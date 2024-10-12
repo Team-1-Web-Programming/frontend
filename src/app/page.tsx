@@ -27,7 +27,9 @@ export default function Home() {
             Mengurangi Limbah dan Menjaga Bumi."
           </p>
 
-          <Button>Berbagi Sekarang!</Button>
+          <div>
+            <Button>Berbagi Sekarang!</Button>
+          </div>
         </div>
         <div className={styles.decorationContainer}>
           <FrameDecoration />
@@ -114,8 +116,15 @@ export default function Home() {
         </div>
       </section>
       <section className={styles.sectionBlogs}>
-        <h3>Blogs</h3>
-        <div style={{ display: "flex", justifyContent: 'center', gap: 20 }}>
+        <h3 style={{ textAlign: "center", color: 'var(--white)' }}>Blogs</h3>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: 20,
+            marginTop: 20,
+          }}
+        >
           <BlogsCard />
           <BlogsCard />
           <BlogsCard />
