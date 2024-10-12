@@ -1,0 +1,12 @@
+.smallStatCard {
+    padding: 20px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid var(--primary-green);
+    border-radius: 20px;
+    width: 309px;
+
+}
