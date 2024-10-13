@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import styles from "./Header.module.css";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const routes = {
   admin: {
@@ -21,8 +23,13 @@ const routes = {
   },
 };
 
+const COLOR_ACTIVE = {
+  color: "var(--primary-green",
+};
+
 export default function Header(props: { type?: "admin" | "user" }) {
   const { type = "user" } = props;
+  const pathname = usePathname();
 
   return (
     <header className={styles.navBar}>
@@ -40,10 +47,30 @@ export default function Header(props: { type?: "admin" | "user" }) {
       </div>
       {type === "user" && (
         <div className={styles.tabsContainer}>
-          <Link href={routes?.[type]?.home}>Beranda</Link>
-          <Link href={routes?.[type]?.donasi}>Donasi</Link>
-          <Link href={routes?.[type]?.kategori}>Kategori</Link>
-          <Link href={routes?.[type]?.blog}>Blog</Link>
+          <Link
+            href={routes?.[type]?.home}
+            style={pathname === routes?.[type]?.home ? COLOR_ACTIVE : {}}
+          >
+            Beranda
+          </Link>
+          <Link
+            href={routes?.[type]?.donasi}
+            style={pathname === routes?.[type]?.donasi ? COLOR_ACTIVE : {}}
+          >
+            Donasi
+          </Link>
+          <Link
+            href={routes?.[type]?.kategori}
+            style={pathname === routes?.[type]?.kategori ? COLOR_ACTIVE : {}}
+          >
+            Kategori
+          </Link>
+          <Link
+            href={routes?.[type]?.blog}
+            style={pathname === routes?.[type]?.blog ? COLOR_ACTIVE : {}}
+          >
+            Blog
+          </Link>
         </div>
       )}
       <div className={styles.profileGroupContainer}>
