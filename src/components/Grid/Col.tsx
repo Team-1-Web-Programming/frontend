@@ -7,6 +7,7 @@ export default function Col({
   lg,
   xl,
   children,
+  ...rest
 }: {
   xs?: number;
   sm?: number;
@@ -14,6 +15,7 @@ export default function Col({
   lg?: number;
   xl?: number;
   children?: any;
+  style?: any
 }) {
   const getColumnClass = () => {
     let className = "";
@@ -25,5 +27,5 @@ export default function Col({
     return className.trim();
   };
 
-  return <div className={getColumnClass()}>{children}</div>;
+  return <div className={getColumnClass()} {...rest}>{children}</div>;
 }
