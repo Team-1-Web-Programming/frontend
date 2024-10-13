@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import Header from "@/components/Header";
+import Layout from "@/layout/Layout";
 import "./globals.css";
-import Footer from "@/components/Footer";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -17,11 +18,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{height: '100%'}}>
-      <body className={montserrat.className} style={{height: '100%' , position: "relative" }}>
-        <Header />
-        <div style={{ minHeight: "100%" }}>{children}</div>
-        <Footer />
+    <html lang="en" style={{ height: "100%" }}>
+      <body
+        className={montserrat.className}
+        style={{ height: "100%", position: "relative" }}
+      >
+        <Layout>{children}</Layout>
+        <ToastContainer />
       </body>
     </html>
   );
