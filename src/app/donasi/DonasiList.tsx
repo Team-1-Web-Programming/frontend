@@ -1,4 +1,4 @@
-import * as React from "react";
+'use client'
 import {
   createColumnHelper,
   flexRender,
@@ -6,6 +6,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import styles from "./DonasiList.module.css";
+import { useState } from "react";
 
 type Person = {
   id: number;
@@ -395,8 +396,7 @@ const columns = [
 ];
 
 export default function DonasiList() {
-  const [data, _setData] = React.useState(() => [...defaultData]);
-  const rerender = React.useReducer(() => ({}), {})[1];
+  const [data, _setData] = useState(() => [...defaultData]);
 
   const table = useReactTable({
     data,
