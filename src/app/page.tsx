@@ -1,3 +1,4 @@
+'use client'
 import Button from "@/components/Button";
 import styles from "./page.module.css";
 import FrameDecoration from "@/components/FrameDecoration";
@@ -11,7 +12,6 @@ export default function Home() {
   const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-
   return (
     <main style={{ display: "flex", flexDirection: "column", gap: 40 }}>
       <section className={styles.firstSection}>

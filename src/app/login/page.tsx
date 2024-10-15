@@ -5,9 +5,12 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import styles from "./login.module.css";
 import ButtonGoogle from "@/components/Button/ButtonGoogle";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const { register, handleSubmit } = useForm();
+  const router = useRouter()
   return (
     <main className={styles.container}>
       <div className={styles.mainContent}>
@@ -29,10 +32,13 @@ export default function Login() {
           />
         </form>
         <div className={styles.buttonContainer}>
-          <Button style={{ width: "100%" }}>Sign in</Button>
+          <Button style={{ width: "100%" }} onClick={() => router.push('/')}>Sign in</Button>
           <ButtonGoogle style={{ width: "100%" }}>
             Sign in with Google
           </ButtonGoogle>
+          <p>
+            Don't have an account? <Link href={'/signup'}>Sign up fo free!</Link>
+          </p>
         </div>
       </div>
       <div>
