@@ -37,7 +37,7 @@ export default function Login() {
             Sign in with Google
           </ButtonGoogle>
           <p>
-            Don't have an account? <Link href={'/signup'}>Sign up fo free!</Link>
+            {`Don't have an account? `}<Link href={'/signup'}>Sign up fo free!</Link>
           </p>
         </div>
       </div>

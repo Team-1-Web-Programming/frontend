@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Button from "@/components/Button";
 import styles from "./page.module.css";
 import FrameDecoration from "@/components/FrameDecoration";
@@ -23,8 +23,8 @@ export default function Home() {
           </h1>
 
           <p>
-            "Temukan Manfaat Berbagi. Dukung Lingkungan. Solusi Cerdas untuk
-            Mengurangi Limbah dan Menjaga Bumi."
+            {`Temukan Manfaat Berbagi. Dukung Lingkungan. Solusi Cerdas untuk
+            Mengurangi Limbah dan Menjaga Bumi.`}
           </p>
 
           <div>
@@ -116,7 +116,7 @@ export default function Home() {
         </div>
       </section>
       <section className={styles.sectionBlogs}>
-        <h3 style={{ textAlign: "center", color: 'var(--white)' }}>Blogs</h3>
+        <h3 style={{ textAlign: "center", color: "var(--white)" }}>Blogs</h3>
         <div
           style={{
             display: "flex",
