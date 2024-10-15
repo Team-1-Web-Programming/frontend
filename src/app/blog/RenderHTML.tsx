@@ -50,7 +50,10 @@ export const dummyHTMLString = `  <h4>Random Long HTML Example</h4>
             </tr>
           </tbody>
         </table>
-
+        <br />
+        <a href="/">RANDOM LINK CAREFUL!</a>
+        <br />
+        <br />
         <h4>Random Button</h4>
         <button onclick="alert('You clicked the random button!')">Click Me!</button>
 
