@@ -50,7 +50,7 @@ h4 {
 }
 
 a {
-  color: inherit;
+  color: var(--primary-green);
   text-decoration: none;
 }
 
@@ -139,7 +139,14 @@ table {
   min-width: 700px; 
 }
 
-
+.ReactModal__Content {
+  max-width: 800px;
+  max-height: 800px;
+  height: 100%;
+  width: 100%; /* Full width within the container */
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+  overflow-y: scroll;
+}
 
 @media (prefers-color-scheme: dark) {
   /* html {

@@ -1,3 +1,4 @@
+"use client";
 import Footer from "@/components/Footer";
 import Col from "@/components/Grid/Col";
 import Row from "@/components/Grid/Row";
@@ -10,7 +11,10 @@ export default function AdminLayout(props: any) {
       <Header type={"admin"} />
       <div style={{ minHeight: "100%" }}>
         <Row>
-          <Col xs={3} style={{ borderRight: "1px solid black", height: "100vh" }}>
+          <Col
+            xs={3}
+            style={{ borderRight: "1px solid black", height: "100vh" }}
+          >
             <aside
               style={{
                 backgroundColor: "var(--white)",
@@ -18,13 +22,13 @@ export default function AdminLayout(props: any) {
                 flexDirection: "column",
               }}
             >
-              <Link href={"/dashboard"}>
+              <Link href={"/dashboard"} style={{ color: "inherit" }}>
                 <div style={{ padding: 10 }}>Home</div>
               </Link>
-              <Link href={"/dashboard/kategori"}>
+              <Link href={"/dashboard/kategori"} style={{ color: "inherit" }}>
                 <div style={{ padding: 10 }}>Kategori</div>
               </Link>
-              <Link href={"/dashboard/blogs"}>
+              <Link href={"/dashboard/blogs"} style={{ color: "inherit" }}>
                 <div style={{ padding: 10 }}>Blog</div>
               </Link>
             </aside>
