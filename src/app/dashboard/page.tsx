@@ -1,7 +1,4 @@
-import Row from "@/components/Grid/Row";
 import ImageUploader from "../tambah-donasi/image-uploader";
-import Col from "@/components/Grid/Col";
-import Link from "next/link";
 
 export default function Dashboard() {
   return (

@@ -38,6 +38,7 @@ export default function Profil() {
                 <Button type="secondary">Ganti Foto Profil</Button>
               </div>
             </ImageUpload>
+
           </div>
           <div>
             <div>
