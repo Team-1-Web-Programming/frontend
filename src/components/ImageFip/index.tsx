@@ -86,10 +86,17 @@ export default function ImageFlip(props?: any) {
             width={360}
             height={530}
             className={props?.className}
+            unoptimized
           />
         </div>
         <div className={`${styles.face} ${styles.back}`}>
-          <Image src={images[backImage]} alt="Back" width={360} height={530} />
+          <Image
+            src={images[backImage]}
+            alt="Back"
+            width={360}
+            height={530}
+            unoptimized
+          />
         </div>
       </div>
     </div>
