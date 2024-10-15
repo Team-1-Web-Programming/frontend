@@ -10,6 +10,9 @@
   background-color: var(--white);
 }
 
+.navBar a {
+  color: inherit;
+}
 .logoContainer {
   flex: 1;
 }
