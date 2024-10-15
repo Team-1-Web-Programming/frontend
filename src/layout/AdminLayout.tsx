@@ -9,7 +9,7 @@ export default function AdminLayout(props: any) {
   return (
     <>
       <Header type={"admin"} />
-      <div style={{ minHeight: "100%" }}>
+      <div style={{ minHeight: "100%", maxWidth: 'var(--max-width)' }}>
         <Row>
           <Col
             xs={3}
