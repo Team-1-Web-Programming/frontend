@@ -47,8 +47,8 @@ const DonasiAnalisisChart = () => {
 
   const fullMonthlyData = generateRandomData(200);
 
-  const sliceMonthlyData = (data, labels) => {
-    const firstNonZeroIndex = data.findIndex((value) => value > 0);
+  const sliceMonthlyData = (data: any, labels: any) => {
+    const firstNonZeroIndex = data.findIndex((value: any) => value > 0);
     const lastNonZeroIndex =
       data.length - 1 - [...data].reverse().findIndex((value) => value > 0);
 
@@ -122,7 +122,7 @@ const DonasiAnalisisChart = () => {
     responsive: true,
     scales: {
       y: {
-        type: 'linear', // Specify the type of the scale
+        type: "linear", // Specify the type of the scale
         min: 0,
         max: 100,
         grid: {
@@ -154,11 +154,11 @@ const DonasiAnalisisChart = () => {
         displayColors: false,
         padding: 10,
         callbacks: {
-          label: function (tooltipItem) {
+          label: function (tooltipItem: any) {
             const value = tooltipItem.raw;
             return `$${value.toLocaleString()}`;
           },
-          title: function (el) {
+          title: function (el: any) {
             return el[0]?.label;
           },
         },
@@ -178,22 +178,25 @@ const DonasiAnalisisChart = () => {
       intersect: false,
     },
   };
-  
 
   const verticalLinePlugin = {
     id: "verticalLine",
-    afterDraw: (chart) => {
+    afterDraw: (chart: any) => {
       // Check if the chart type has a y-axis before proceeding
-      if (!chart.scales?.y || !chart.tooltip._active || !chart.tooltip._active.length) {
+      if (
+        !chart.scales?.y ||
+        !chart.tooltip._active ||
+        !chart.tooltip._active.length
+      ) {
         return; // Exit if there's no y-axis or no active tooltip
       }
-  
+
       const ctx = chart.ctx;
       const activePoint = chart.tooltip._active[0];
       const x = activePoint.element.x;
       const y = activePoint.element.y;
       const bottomY = chart.scales.y.bottom;
-  
+
       ctx.save();
       ctx.beginPath();
       ctx.moveTo(x, y);
@@ -204,11 +207,10 @@ const DonasiAnalisisChart = () => {
       ctx.restore();
     },
   };
-  
 
   ChartJS.register(verticalLinePlugin);
 
-  const handleModeChange = (event) => {
+  const handleModeChange = (event: any) => {
     setMode(event.target.value);
   };
 
@@ -229,7 +231,7 @@ const DonasiAnalisisChart = () => {
       </div>
       <Line
         data={mode === "monthly" ? monthlyData : yearlyData}
-        options={options}
+        options={options as any}
       />
     </div>
   );

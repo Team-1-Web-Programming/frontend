@@ -77,7 +77,7 @@ const TotalAktivitasChart = () => {
 
   return (
     <div style={{ width: "100%", height: "200px" }}>
-      <Bar data={data} options={options} />
+      <Bar data={data} options={options as any} />
     </div>
   );
 };

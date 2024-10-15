@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   createColumnHelper,
   flexRender,
@@ -351,7 +351,10 @@ const columns = [
             borderRadius: "100%",
             height: 8,
             width: 8,
-            backgroundColor: statusColor?.[info.getValue()],
+            backgroundColor:
+              statusColor?.[
+                info.getValue() as "requested" | "canceled" | "taken"
+              ],
           }}
         />
         <i>{info.getValue()}</i>
@@ -363,7 +366,15 @@ const columns = [
   columnHelper.accessor((row) => row.id, {
     id: "id",
     cell: (info) => (
-      <div style={{ display: "flex", alignItems: "center", gap: 2, cursor: 'pointer', padding: 10 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 2,
+          cursor: "pointer",
+          padding: 10,
+        }}
+      >
         <div
           style={{
             borderRadius: "100%",
