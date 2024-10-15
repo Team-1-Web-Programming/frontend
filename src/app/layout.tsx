@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import Layout from "@/layout/Layout";
+import { ToastContainer } from "react-toastify";
 import "./globals.css";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
