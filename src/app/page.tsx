@@ -7,11 +7,13 @@ import Carousel from "@/components/Carousel";
 import { EmblaOptionsType } from "embla-carousel";
 import BlogsCard from "@/components/Card/BlogsCard";
 import LogoWhite from "@/components/Logo";
+import { useCsrfToken } from "@shopify/react-csrf";
 
 export default function Home() {
   const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+  // const csrfToken = useCsrfToken(); 
   return (
     <main style={{ display: "flex", flexDirection: "column", gap: 40 }}>
       <section className={styles.firstSection}>

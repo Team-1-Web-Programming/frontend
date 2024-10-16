@@ -21,13 +21,23 @@ const routes = {
     login: "/login",
     profil: "/profil",
   },
+  unauthorized: {
+    home: "/",
+    donasi: "/donasi",
+    kategori: "/kategori",
+    blog: "/blog",
+    login: "/login",
+    profil: "/profil",
+  },
 };
 
 const COLOR_ACTIVE = {
   color: "var(--primary-green)",
 };
 
-export default function Header(props: { type?: "admin" | "user" }) {
+export default function Header(props: {
+  type: "admin" | "user" | "unauthorized";
+}) {
   const { type = "user" } = props;
   const pathname = usePathname();
 
@@ -86,9 +96,11 @@ export default function Header(props: { type?: "admin" | "user" }) {
               />
             </Link>
           )}
-          <Link href={routes?.[type]?.profil}>
-            <Image src="/profile.png" width={24} height={24} alt="profile" />
-          </Link>
+          {type !== "unauthorized" && (
+            <Link href={routes?.[type]?.profil}>
+              <Image src="/profile.png" width={24} height={24} alt="profile" />
+            </Link>
+          )}
         </div>
       </div>
     </header>

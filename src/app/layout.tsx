@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  token
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -23,7 +24,7 @@ export default function RootLayout({
         className={montserrat.className}
         style={{ height: "100%", position: "relative" }}
       >
-        <Layout>{children}</Layout>
+        <Layout token={token}>{children}</Layout>
         <ToastContainer />
       </body>
     </html>

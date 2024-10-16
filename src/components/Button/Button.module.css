@@ -29,7 +29,10 @@
   background-color: var(--neutral-grey);
 }
 .front {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
   position: relative;
   padding: 12px 42px;
   border-radius: 5px;
@@ -84,4 +87,24 @@
 
 .secondary:hover {
   background-color: var(--accent-green); 
+}
+
+.spinner {
+  border: 4px solid rgba(82, 82, 82, 0.1);
+  border-bottom: 4px solid var(--white);
+  border-right: 4px solid #eeecec;
+  border-top: 4px solid #dddbdb;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

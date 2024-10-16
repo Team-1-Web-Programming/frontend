@@ -4,11 +4,24 @@ import TextInput from "@/components/TextInput";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import styles from "./signup.module.css";
-import ButtonGoogle from "@/components/Button/ButtonGoogle";
 import Link from "next/link";
+import SignUpData from "@/types/signup";
 
 export default function SignUp() {
-  const { register, handleSubmit } = useForm();
+  const { register: formRegister, handleSubmit, formState } = useForm<SignUpData>({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+    },
+  });
+
+  console.log(formState)
+  const onSubmit = (data: SignUpData) => {
+    console.log(data);
+  };
+
   return (
     <main className={styles.container}>
       <div className={styles.mainContent}>
@@ -19,30 +32,42 @@ export default function SignUp() {
         <form>
           <TextInput
             label="Name"
+            name="name"
             placeholder="Enter your name"
-            {...register("name")}
+            register={formRegister}
+            options={{ required: "Please enter your name" }}
           />
           <TextInput
             label="Email"
             type="email"
+            name="email"
             placeholder="Enter your email"
-            {...register("email")}
+            register={formRegister}
+            options={{ required: "Please enter your email" }}
           />
           <TextInput
             label="Password"
             type="password"
+            name="password"
             placeholder="Enter your password"
-            {...register("password")}
+            register={formRegister}
+            options={{required: "Please enter your password"}}
           />
-           <TextInput
+          <TextInput
             label="Confirm Password"
             type="password"
             placeholder="Confirm your password"
-            {...register("password_confirmation")}
+            register={formRegister}
+            name="password_confirmation"
+            options={{
+              required: "Please confirm your password",
+            }}
           />
         </form>
         <div className={styles.buttonContainer}>
-          <Button style={{ width: "100%" }}>Sign Up</Button>
+          <Button style={{ width: "100%" }} onClick={handleSubmit(onSubmit)}>
+            Sign Up
+          </Button>
           <p>
             Already have an account? <Link href={"/login"}>Login</Link>
           </p>
