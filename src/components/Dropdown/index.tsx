@@ -5,6 +5,7 @@ type Placement = "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
 
 interface DropdownProps {
   trigger?: "click" | "hover";
+  absolute?: boolean
   overlay: { action?: any; render: ReactNode }[];
   placement?: Placement;
   visible?: boolean;
@@ -15,6 +16,7 @@ interface DropdownProps {
 const Dropdown: React.FC<DropdownProps> = ({
   trigger = "click",
   overlay,
+  absolute = true,
   placement = "bottomRight",
   visible,
   onVisibleChange,
@@ -86,11 +88,12 @@ const Dropdown: React.FC<DropdownProps> = ({
   return (
     <div
       className={styles.dropdown}
+      style={{ position: absolute ? "absolute" : "relative" }}
       ref={dropdownRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div onClick={handleToggle}>{children}</div>
+      <div onClick={handleToggle} className={styles.dropdownChild}>{children}</div>
       {isOpen && (
         <div
           className={`${styles.dropdownMenu} ${styles.showMenu}`}
