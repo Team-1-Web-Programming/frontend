@@ -119,7 +119,6 @@ function Home() {
           style={{
             opacity: 0.15,
             pointerEvents: "none",
-            backgroundColor: "red",
             objectFit: "cover",
           }}
         />
@@ -158,9 +157,9 @@ function Home() {
             dalam pengurangan limbah demi menjaga bumi untuk generasi
             mendatang.”
           </p>
-          <Link href={"/blog"}>
+          {/* <Link href={"/blog"}>
             <Button>Read More</Button>
-          </Link>
+          </Link> */}
         </div>
 
         <Image
