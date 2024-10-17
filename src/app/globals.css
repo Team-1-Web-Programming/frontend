@@ -63,6 +63,7 @@ select {
 }
 
 table {
+  min-width: 700px; 
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
@@ -73,6 +74,7 @@ table th, table td {
   padding: 12px 16px;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
+  max-height: 200px;
 }
 
 table th {
@@ -132,10 +134,6 @@ table td.action {
 
 .table-wrapper {
   overflow-x: auto;
-}
-
-table {
-  min-width: 700px; 
 }
 
 .ReactModal__Content {

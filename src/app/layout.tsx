@@ -4,6 +4,7 @@ import Layout from "@/layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "./globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import 'quill/dist/quill.snow.css'; 
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
