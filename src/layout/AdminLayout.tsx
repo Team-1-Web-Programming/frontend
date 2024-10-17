@@ -9,11 +9,12 @@ export default function AdminLayout(props: any) {
   return (
     <>
       <Header type={"admin"} />
-      <div style={{ minHeight: "100%", maxWidth: 'var(--max-width)' }}>
+      <div style={{ minHeight: "100%", maxWidth: "var(--max-width)", margin: 'auto' }}>
         <Row>
           <Col
             xs={3}
-            style={{ borderRight: "1px solid black", height: "100vh" }}
+            md={3}
+            style={{ borderRight: "1px solid black", borderLeft: "1px solid black", height: "100vh" }}
           >
             <aside
               style={{
@@ -36,8 +37,8 @@ export default function AdminLayout(props: any) {
               </Link>
             </aside>
           </Col>
-          <Col>
-            <main>{props?.children}</main>
+          <Col xs={20} style={{paddingTop: 20}}>
+            {props?.children}
           </Col>
         </Row>
       </div>
