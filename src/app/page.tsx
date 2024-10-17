@@ -33,8 +33,8 @@ function Home() {
           </h1>
 
           <p>
-            {`Temukan Manfaat Berbagi. Dukung Lingkungan. Solusi Cerdas untuk
-            Mengurangi Limbah dan Menjaga Bumi.`}
+            {`“Temukan Manfaat Berbagi. Dukung Lingkungan. Solusi Cerdas untuk
+            Mengurangi Limbah dan Menjaga Bumi."`}
           </p>
 
           <div>
