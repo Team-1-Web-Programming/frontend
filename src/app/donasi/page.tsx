@@ -2,10 +2,10 @@
 import Button from "@/components/Button";
 import styles from "./page.module.css";
 import FrameDecoration from "@/components/FrameDecoration";
-import ItemCard from "@/components/Items";
 import { withAuth } from "@/helpers/withAuth";
 import Image from "next/image";
 import Link from "next/link";
+import Accordion from "@/components/Accordion";
 
 const imageList = [
   "https://picsum.photos/200/300",
@@ -38,7 +38,7 @@ membantu sesama dengan mendonasikan barang yang tidak lagi Anda gunakan.”`}
           </p>
 
           <div>
-            <Link href={"/donasi"}>
+            <Link href={"/tambah-donasi"}>
               <Button>Berbagi Sekarang!</Button>
             </Link>
           </div>
@@ -313,6 +313,11 @@ membantu sesama dengan mendonasikan barang yang tidak lagi Anda gunakan.”`}
         className={styles.section}
         style={{
           padding: "20px 0",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 20,
         }}
       >
         <h1
@@ -396,6 +401,53 @@ membantu sesama dengan mendonasikan barang yang tidak lagi Anda gunakan.”`}
             <p>Buat akun di Gunaulang</p>
           </div>
         </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 20,
+          }}
+        >
+          <h4>Bergabunglah dalam Gerakan Zero Waste</h4>
+          <p>
+            Mari kita bersama-sama mengurangi limbah dengan mendonasikan barang
+            yang tidak terpakai!
+          </p>
+          <Button>Jadi Donor Sekarang!</Button>
+        </div>
+      </section>
+      <section style={{ maxWidth: "60rem", margin: "auto", padding: 40 }}>
+        <h1
+          style={{
+            fontWeight: 1000,
+            textAlign: "center",
+            color: "var(--primary-green)",
+            padding: 20,
+          }}
+        >
+          Pertanyaan Seputar Guna Ulang
+        </h1>
+        <Accordion
+          items={[
+            {
+              title: "Apa saja barang yang bisa didonasikan?",
+              content:
+                "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
+            },
+            {
+              title: "Bagaimana cara pengambilan barang yang didonasikan?",
+              content:
+                "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available. Wikipedia",
+            },
+            {
+              title: "Apakah ada biaya untuk mendonasikan barang?",
+              content:
+                "Lorem Ipsum was originally taken from a Latin text by the Roman philosopher Cicero, a connection that Latin scholar Richard McClintock made in the 1980s. It has gone through significant changes over the centuries, with words being taken out, shortened, and added",
+            },
+          ]}
+        />
       </section>
     </main>
   );
