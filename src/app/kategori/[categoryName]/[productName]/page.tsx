@@ -4,17 +4,19 @@ import Button from "@/components/Button";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 const images = [
-  "https://w7.pngwing.com/pngs/682/981/png-transparent-number-1-miscellaneous-rectangle-number-thumbnail.png",
-  "https://w7.pngwing.com/pngs/604/843/png-transparent-number-parity-building-2-miscellaneous-angle-building.png",
-  "https://w7.pngwing.com/pngs/1004/858/png-transparent-number-3-text-logo-number-thumbnail.png",
-  "https://i.pinimg.com/1200x/2c/94/7b/2c947bcaf6ca4b1c37f44f9cff180d01.jpg",
+  "https://picsum.photos/200/300",
+  "https://picsum.photos/200/200",
+  "https://picsum.photos/300/300",
+  "https://picsum.photos/300/200",
 ];
 
 export default function ProductDetail() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const handleRedirectWA = () => {
-    const message = encodeURIComponent(`Hi, I want to claim this ${window.location.origin}${pathname}. Is it still available?`);
+    const message = encodeURIComponent(
+      `Hi, I want to claim this ${window.location.origin}${pathname}. Is it still available?`
+    );
     const whatsappUrl = `https://wa.me/${`08277272121`}?text=${message}`;
     window.location.href = whatsappUrl;
   };
@@ -36,16 +38,13 @@ export default function ProductDetail() {
           </div>
           <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
             {images.map((el) => (
-              <div
-                key={el}
-                style={{ borderRadius: 10, backgroundColor: "red" }}
-              >
+              <div key={el} style={{ borderRadius: 10 }}>
                 <Image
                   src={"https://picsum.photos/200/300"}
                   alt="mini product image"
                   width={88}
                   height={88}
-                  style={{ borderRadius: 10, backgroundColor: "red" }}
+                  style={{ borderRadius: 10 }}
                 />
               </div>
             ))}
@@ -65,7 +64,9 @@ export default function ProductDetail() {
           </p>
           <div style={{ display: "flex", gap: 20 }}>
             <Button>Klaim</Button>
-            <Button type="secondary" onClick={handleRedirectWA}>Hubungi Donor</Button>
+            <Button type="secondary" onClick={handleRedirectWA}>
+              Hubungi Donor
+            </Button>
           </div>
           <div>
             <h4>Detail</h4>
@@ -79,7 +80,38 @@ export default function ProductDetail() {
         </div>
       </section>
       <section>
-        <h1>Kamu Juga Mungkin Suka</h1>
+        <h1
+          style={{
+            color: "var(--primary-green)",
+            textAlign: "center",
+            padding: 40,
+          }}
+        >
+          Kamu Juga Mungkin Suka
+        </h1>
+        <div style={{ display: "flex", gap: 20 }}>
+          {images.map((el) => (
+            <div
+              key={el}
+              style={{
+                borderRadius: 10,
+                display: "flex",
+                flexDirection: "column",
+                gap: 10,
+              }}
+            >
+              <Image
+                src={el}
+                alt="mini product image"
+                width={282}
+                height={285}
+                style={{ borderRadius: 10 }}
+              />
+              <h4>Polo with Contrast Trims</h4>
+              <p>Sleman, Yogyakarta</p>
+            </div>
+          ))}
+        </div>
       </section>
     </main>
   );
