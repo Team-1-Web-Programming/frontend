@@ -1,0 +1,15 @@
+.container {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px
+}
+.totalDonasiCard {
+    flex: 1;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--primary-green);
+    display: inline-flex;
+    gap: 5px;
+    flex-direction: column;
+}
