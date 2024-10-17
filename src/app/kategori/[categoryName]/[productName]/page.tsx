@@ -58,10 +58,10 @@ export default function ProductDetail() {
           </div>
           <h2>Nama Barang</h2>
           <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
+            {`Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industrys standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book.
+            and scrambled it to make a type specimen book.`}
           </p>
           <div style={{ display: "flex", gap: 20 }}>
             <Button>Klaim</Button>
@@ -70,7 +70,7 @@ export default function ProductDetail() {
           <div>
             <h4>Detail</h4>
             <ul>
-              <li>Lorem Ipsum has been the industry's</li>
+              <li>{`Lorem Ipsum has been the industry's`}</li>
               <li>standard dummy text ever since the 1500s,</li>
               <li>when an unknown printer took a galley of type and</li>
               <li>scrambled it to make a type specimen book</li>
