@@ -10,24 +10,33 @@ import LogoWhite from "@/components/Logo";
 import { withAuth } from "@/helpers/withAuth";
 import Image from "next/image";
 import Link from "next/link";
-import { useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
 import getBlogs from "./api/blogs/blogs";
+import getDonationCategories from "./api/donation/category";
 
 const imageList = [
-  'https://picsum.photos/400/300',
-  'https://picsum.photos/500/300',
-  'https://picsum.photos/400/300',
-  'https://picsum.photos/300/400',
-]
+  "https://picsum.photos/400/300",
+  "https://picsum.photos/500/300",
+  "https://picsum.photos/400/300",
+  "https://picsum.photos/300/400",
+];
 
 function Home() {
   const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
-  const qBlogs = useQuery({
-    queryKey: ["/blog"],
-    queryFn: getBlogs,
+  const queries = useQueries({
+    queries: [
+      {
+        queryKey: ["/donation/category"],
+        queryFn: getDonationCategories,
+      },
+      {
+        queryKey: ["/blog"],
+        queryFn: getBlogs,
+      },
+    ],
   });
 
   return (
@@ -99,7 +108,9 @@ function Home() {
       >
         <h3 style={{ textAlign: "center" }}>Kategori</h3>
         <div>
-          <Carousel slides={SLIDES} options={OPTIONS} />
+          {queries?.[0]?.data && (
+            <Carousel slides={queries?.[0]?.data} options={OPTIONS} />
+          )}
         </div>
         <Image
           src={"/leaf.svg"}
@@ -195,7 +206,7 @@ function Home() {
             marginTop: 20,
           }}
         >
-          {qBlogs.data?.data?.slice(0, 3)?.map((el: any) => {
+          {queries?.[1]?.data?.data?.slice(0, 3)?.map((el: any) => {
             return (
               <BlogsCard
                 key={el?.id}

@@ -13,7 +13,7 @@ import "./embla.css";
 import Image from "next/image";
 
 type PropType = {
-  slides: number[];
+  slides: any[];
   options?: EmblaOptionsType;
 };
 
@@ -52,20 +52,20 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       </div>
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
-          {slides.map((index) => (
+          {slides.map((el, index) => (
             <div
               className="embla__slide"
               style={{ borderRadius: 20, padding: 20 }}
-              key={index}
+              key={el.id}
             >
               <Image
-                src={"/floral-image.png"}
-                style={{ borderRadius: 20 }}
+                src={`https://picsum.photos/${200 + index}/300`}
+                style={{ borderRadius: 20, objectFit: 'cover' }}
                 alt="floral-image"
                 width={300}
                 height={287}
               />
-              <p style={{ textAlign: "center" }}>random</p>
+              <p style={{ textAlign: "center", fontWeight: '600' }}>{el.title}</p>
             </div>
           ))}
         </div>
