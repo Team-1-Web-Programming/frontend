@@ -66,6 +66,6 @@ export const dummyHTMLString = `  <h4>Random Long HTML Example</h4>
           .substring(7)}</p>
 `;
 
-export default function RenderHTML() {
-  return <div dangerouslySetInnerHTML={{ __html: dummyHTMLString }} />;
+export default function RenderHTML({htmlString = dummyHTMLString}) {
+  return <div dangerouslySetInnerHTML={{ __html: htmlString }} />;
 }

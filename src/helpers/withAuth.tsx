@@ -9,8 +9,6 @@ export function withAuth(Component: any, Skeleton?: any) {
 
     const qUser = useQuery({ queryKey: ["/user"], queryFn: getUser });
 
-    console.log(qUser.data?.data, "user");
-
     if (qUser.isLoading) {
       return Skeleton ? <Skeleton /> : <div>Loading...</div>;
     }

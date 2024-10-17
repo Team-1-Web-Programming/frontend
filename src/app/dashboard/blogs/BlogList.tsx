@@ -127,7 +127,7 @@ const columns = [
   }),
 ];
 
-export default function BlogList(props: { onAddClick: any }) {
+export default function BlogList(props?: { onAddClick?: any }) {
   const qBlogs = useQuery({
     queryKey: ["/blogs"],
     queryFn: getBlogs,

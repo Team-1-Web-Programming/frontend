@@ -10,11 +10,26 @@ import LogoWhite from "@/components/Logo";
 import { withAuth } from "@/helpers/withAuth";
 import Image from "next/image";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import getBlogs from "./api/blogs/blogs";
+
+const imageList = [
+  'https://picsum.photos/400/300',
+  'https://picsum.photos/500/300',
+  'https://picsum.photos/400/300',
+  'https://picsum.photos/300/400',
+]
 
 function Home() {
   const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+
+  const qBlogs = useQuery({
+    queryKey: ["/blog"],
+    queryFn: getBlogs,
+  });
+
   return (
     <main
       style={{
@@ -44,7 +59,7 @@ function Home() {
           </div>
         </div>
         <div className={styles.decorationContainer}>
-          <FrameDecoration />
+          <FrameDecoration imageList={imageList} />
         </div>
       </section>
       <section
@@ -180,9 +195,16 @@ function Home() {
             marginTop: 20,
           }}
         >
-          <BlogsCard />
-          <BlogsCard />
-          <BlogsCard />
+          {qBlogs.data?.data?.slice(0, 3)?.map((el: any) => {
+            return (
+              <BlogsCard
+                key={el?.id}
+                title={el?.title}
+                coverImage={el?.cover_image}
+                id={el.id}
+              />
+            );
+          })}
         </div>
       </section>
     </main>

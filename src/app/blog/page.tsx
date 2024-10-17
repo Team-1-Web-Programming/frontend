@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Button from "@/components/Button";
 import Image from "next/image";
 import BlogsCard from "@/components/Card/BlogsCard";
@@ -6,8 +6,17 @@ import RenderHTML from "./RenderHTML";
 import styles from "./blog.module.css";
 import { withAuth } from "@/helpers/withAuth";
 import BlogPostSkeleton from "./BlogSkeleton";
+import { useQuery } from "@tanstack/react-query";
+import getBlogs from "../api/blogs/blogs";
 
-const Blog: React.FC = () => {
+const Blog: React.FC = (props?: { data?: any }) => {
+  const qBlogs = useQuery({
+    queryKey: ["/blogs"],
+    queryFn: getBlogs,
+  });
+
+  const data = props?.data || qBlogs?.data?.data?.[0];
+
   return (
     <main>
       <header className={styles.blogHeader}>
@@ -22,9 +31,11 @@ const Blog: React.FC = () => {
         </div>
       </header>
       <article className={styles.content}>
-        <h3>Mengapa Berbagi Barang Membantu Mengurangi Limbah?</h3>
+        <h1 style={{ textAlign: "center" }}>
+          {data?.title || "Mengapa Berbagi Barang Membantu Mengurangi Limbah?"}
+        </h1>
         <Image
-          src={"https://picsum.photos/1152/491"}
+          src={data?.cover_image || "https://picsum.photos/800/500"}
           width={1152}
           height={491}
           layout="responsive"
@@ -32,16 +43,23 @@ const Blog: React.FC = () => {
           style={{ borderRadius: 20 }}
         />
         <div>
-          <RenderHTML />
+          <RenderHTML htmlString={data?.content} />
         </div>
       </article>
       <div>
         <h3 style={{ textAlign: "center" }}>Daftar Artikel Terkini</h3>
       </div>
       <div className={styles.blogItemsContainer}>
-        <BlogsCard />
-        <BlogsCard />
-        <BlogsCard />
+        {qBlogs.data?.data?.slice(0, 3)?.map((el: any) => {
+          return (
+            <BlogsCard
+              key={el?.id}
+              title={el?.title}
+              coverImage={el?.cover_image}
+              id={el.id}
+            />
+          );
+        })}
       </div>
     </main>
   );
