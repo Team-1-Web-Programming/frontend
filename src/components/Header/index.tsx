@@ -14,6 +14,7 @@ const routes = {
   admin: {
     home: "/dashboard",
     donasi: "/dashboard/donasi",
+    history: "/donasi/history",
     kategori: "/dashboard/kategori",
     blog: "/dashboard/blog",
     login: "/dashboard/login",
@@ -23,6 +24,7 @@ const routes = {
   user: {
     home: "/",
     donasi: "/donasi",
+    history: "/donasi/history",
     kategori: "/kategori",
     blog: "/blog",
     login: "/login",
@@ -32,6 +34,7 @@ const routes = {
   unauthorized: {
     home: "/",
     donasi: "/donasi",
+    history: "/donasi/history",
     kategori: "/kategori",
     blog: "/blog",
     login: "/login",
@@ -53,9 +56,7 @@ export default function Header(props: {
 
   const qUser = useQuery({ queryKey: ["/user"], queryFn: getUser });
 
-  console.log(qUser, "mama");
-
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: logout,
   });
 
@@ -75,7 +76,7 @@ export default function Header(props: {
     <header className={styles.navBar}>
       <div className={styles.wrapper}>
         <div className={styles.logoContainer}>
-          <Link href={'/'}>
+          <Link href={"/"}>
             <Image
               src="/logo.svg"
               alt="Guna Ulang Logo"
@@ -129,14 +130,22 @@ export default function Header(props: {
             </div>
           )} */}
           {type !== "unauthorized" && (
-            <div>
+            <div style={{ padding: 10 }}>
               <Dropdown
                 trigger="hover"
+                absolute={false}
                 overlay={[
                   {
                     render: (
                       <Link href={routes?.[type]?.profil}>
                         <div>Profil</div>
+                      </Link>
+                    ),
+                  },
+                  {
+                    render: (
+                      <Link href={routes?.[type]?.history}>
+                        <div>History</div>
                       </Link>
                     ),
                   },

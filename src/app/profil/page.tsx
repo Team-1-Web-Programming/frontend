@@ -33,7 +33,7 @@ export default function Profil() {
               height={200}
               style={{ borderRadius: 200 }}
             />
-            <ImageUpload onCropped={(img) => setProfil(img)}>
+            <ImageUpload onCropped={(img) => setProfil(img?.croppedImage)}>
               <div>
                 <Button type="secondary">Ganti Foto Profil</Button>
               </div>

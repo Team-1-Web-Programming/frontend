@@ -10,7 +10,16 @@ import Image from "next/image";
 import Button from "../Button";
 
 const ImageUpload = (
-  props: { children?: any; onCropped: (croppedImage: any) => any } = {
+  props: {
+    children?: any;
+    onCropped?: ({
+      croppedImage,
+      croppedBlob,
+    }: {
+      croppedImage?: string;
+      croppedBlob?: Blob;
+    }) => any;
+  } = {
     onCropped(_croppedImage) {},
   }
 ) => {
@@ -20,6 +29,7 @@ const ImageUpload = (
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [croppedImage, setCroppedImage] = useState<any>(null);
+  const [croppedBlob, setCroppedBlob] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onCropComplete = useCallback(
@@ -41,22 +51,28 @@ const ImageUpload = (
 
   const handleCrop = async () => {
     try {
-      const croppedImage = await getCroppedImg(
+      const croppedBlob = (await getCroppedImg(
         imageSrc as any,
         croppedAreaPixels,
         rotation
-      );
-      setCroppedImage(croppedImage);
-      console.log("cropped image", croppedImage);
-      return croppedImage
+      )) as Blob;
+      if (croppedBlob) {
+        const croppedImage = URL.createObjectURL(croppedBlob as Blob);
+        setCroppedImage(croppedImage);
+        setCroppedBlob(croppedBlob);
+        console.log("cropped image", croppedImage);
+        return { croppedBlob, croppedImage };
+      }
     } catch (e) {
       console.error(e);
     }
   };
 
   const handleCloseModal = async () => {
-    await handleCrop().then(e => props.onCropped(e))
-    setIsModalOpen(false); 
+    await handleCrop().then((e: any) => props?.onCropped?.(e));
+    setCroppedImage(null);
+    setCroppedBlob(null);
+    setIsModalOpen(false);
   };
 
   return (
@@ -88,15 +104,15 @@ const ImageUpload = (
         overlayClassName={styles.modalOverlay}
         style={{
           overlay: {
-            zIndex: 1000, // Ensure modal appears above other content like navbar
-            backgroundColor: "rgba(0, 0, 0, 0.75)", // Semi-transparent background
+            zIndex: 1000,
+            backgroundColor: "rgba(0, 0, 0, 0.75)",
           },
           content: {
-            margin: "auto", // Center the modal horizontally
-            bottom: "auto", // Prevent from exceeding the screen's height
+            margin: "auto",
+            bottom: "auto",
             left: "50%",
             right: "auto",
-            transform: "translateX(-50%)", // Center horizontally
+            transform: "translateX(-50%)",
           },
         }}
       >
