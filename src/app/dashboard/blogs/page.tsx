@@ -1,5 +1,5 @@
-import DonasiList from "@/app/donasi/history/DonasiList";
+import BlogList from "./BlogList";
 
 export default function DashboardBlogs() {
-    return <div><DonasiList /></div>
+    return <div><BlogList /></div>
 }
