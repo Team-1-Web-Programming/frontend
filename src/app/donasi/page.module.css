@@ -1,15 +1,63 @@
-.container {
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 40px
+.firstSection {
+  display: flex;
+  align-items: center;
+  padding: 80px 20px 0px;
 }
-.totalDonasiCard {
-    flex: 1;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid var(--primary-green);
-    display: inline-flex;
-    gap: 5px;
-    flex-direction: column;
+
+.titleContainer,
+.decorationContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.decorationContainer {
+  position: relative;
+  right: -70px;
+}
+
+.itemsContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: auto;
+}
+
+.sectionBlogs {
+  background-color: var(--primary-green);
+  padding: 40px;
+}
+
+.sectionAboutUs {
+  position: relative;
+  width: 100%;
+}
+
+.section {
+  width: 100%;
+  position: relative;
+}
+
+.leafDecorRight {
+  position: absolute;
+  right: -15rem;
+  top: -12rem;
+  pointer-events: none;
+  transform: scaleX(-1);
+}
+
+.leafDecorLeft {
+  position: absolute;
+  left: -13rem;
+  top: -12rem;
+  pointer-events: none;
+}
+
+.bulpDecorLeft {
+  position: absolute;
+  left: 0;
+  top: -7rem;
+  transform: rotate(5deg);
+  pointer-events: none;
 }
