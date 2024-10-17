@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./ImageFlip.module.css";
 import Image from "next/image";
 
-const images = [
+const imgs = [
   "https://w7.pngwing.com/pngs/682/981/png-transparent-number-1-miscellaneous-rectangle-number-thumbnail.png",
   "https://w7.pngwing.com/pngs/604/843/png-transparent-number-parity-building-2-miscellaneous-angle-building.png",
   "https://w7.pngwing.com/pngs/1004/858/png-transparent-number-3-text-logo-number-thumbnail.png",
@@ -16,6 +16,8 @@ export default function ImageFlip(props?: any) {
   const [rotation, setRotation] = useState(0);
   const [isFlipping, setIsFlipping] = useState(false);
   const modeRef = useRef("back");
+
+  const images = props?.images || imgs
 
   const handleFlip = () => {
     if (!isFlipping) {
@@ -95,6 +97,7 @@ export default function ImageFlip(props?: any) {
             alt="Back"
             width={360}
             height={530}
+            className={props?.className}
             unoptimized
           />
         </div>

@@ -2,7 +2,7 @@ import Image from "next/image";
 import styles from "./FrameDecoration.module.css";
 import ImageFlip from "../ImageFip";
 
-export default function FrameDecoration() {
+export default function FrameDecoration(props: { imageList?: string[] }) {
   return (
     <div className={styles.container}>
       <div className={styles.firstLayer}>
@@ -17,7 +17,10 @@ export default function FrameDecoration() {
           </div>
 
           <div className={styles.thirdLayer}>
-            <ImageFlip className={styles.ilustration} />
+            <ImageFlip
+              className={styles.ilustration}
+              images={props?.imageList}
+            />
           </div>
         </div>
       </div>
