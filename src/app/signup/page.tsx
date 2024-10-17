@@ -32,7 +32,7 @@ export default function SignUp() {
     mutate(data, {
       onSuccess: () => {
         toast.success("Register successful!");
-        router.push("/login");
+        router.push("/");
       },
       onError: (error: any) => {
         toast.error(error.response?.data?.message || "Register failed.");
