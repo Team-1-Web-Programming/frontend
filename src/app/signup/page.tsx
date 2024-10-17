@@ -6,8 +6,13 @@ import { useForm } from "react-hook-form";
 import styles from "./signup.module.css";
 import Link from "next/link";
 import SignUpData from "@/types/signup";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { register } from "../api/register";
+import { useRouter } from "next/navigation";
 
 export default function SignUp() {
+  const router = useRouter()
   const { register: formRegister, handleSubmit, formState } = useForm<SignUpData>({
     defaultValues: {
       name: "",
@@ -18,8 +23,23 @@ export default function SignUp() {
   });
 
   console.log(formState)
+  const { mutate, isPending } = useMutation({
+    mutationFn: register,
+  });
+
   const onSubmit = (data: SignUpData) => {
     console.log(data);
+    mutate(data, {
+      onSuccess: () => {
+        toast.success("Register successful!");
+        router.push("/login");
+      },
+      onError: (error: any) => {
+        toast.error(error.response?.data?.message || "Register failed.");
+      },
+      onSettled: () => {
+      },
+    });
   };
 
   return (

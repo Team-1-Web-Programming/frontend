@@ -7,15 +7,23 @@ import Carousel from "@/components/Carousel";
 import { EmblaOptionsType } from "embla-carousel";
 import BlogsCard from "@/components/Card/BlogsCard";
 import LogoWhite from "@/components/Logo";
-import { useCsrfToken } from "@shopify/react-csrf";
+import { withAuth } from "@/helpers/withAuth";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+function Home() {
   const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
-  // const csrfToken = useCsrfToken(); 
   return (
-    <main style={{ display: "flex", flexDirection: "column", gap: 40 }}>
+    <main
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 40,
+        overflow: "hidden",
+      }}
+    >
       <section className={styles.firstSection}>
         <div className={styles.titleContainer}>
           <h1>Selamat Datang Di Guna Ulang</h1>
@@ -30,7 +38,9 @@ export default function Home() {
           </p>
 
           <div>
-            <Button>Berbagi Sekarang!</Button>
+            <Link href={"/donasi"}>
+              <Button>Berbagi Sekarang!</Button>
+            </Link>
           </div>
         </div>
         <div className={styles.decorationContainer}>
@@ -38,7 +48,7 @@ export default function Home() {
         </div>
       </section>
       <section
-        className={styles.secondSection}
+        className={`${styles.section} ${styles.secondSection}`}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -55,12 +65,29 @@ export default function Home() {
         <div>
           <Button type="secondary">EXPLORE MORE</Button>
         </div>
+        <Image
+          src={"/bulp.svg"}
+          alt="bulp decor"
+          width={166}
+          height={194}
+          className={styles.bulpDecorLeft}
+        />
       </section>
-      <section>
+      <section
+        className={styles.section}
+        style={{ backgroundColor: "rgba(85, 183, 107, 0.2)", padding: '20px 0' }}
+      >
         <h3 style={{ textAlign: "center" }}>Kategori</h3>
         <div>
           <Carousel slides={SLIDES} options={OPTIONS} />
         </div>
+        <Image
+          src={"/leaf.svg"}
+          alt="leaf decor"
+          width={499.22}
+          height={461.33}
+          className={styles.leafDecorRight}
+        />
       </section>
       <section
         style={{
@@ -78,7 +105,14 @@ export default function Home() {
           di luar Surplus
         </p>
       </section>
-      <section>
+      <section className={`${styles.section} ${styles.sectionAboutUs}`}>
+        <Image
+          src={"/teamwork.png"}
+          alt="team decor"
+          fill
+          unoptimized
+          style={{ opacity: 0.15, pointerEvents: "none" , backgroundColor: 'red', objectFit: 'cover' }}
+        />
         <h3 style={{ textAlign: "center" }}>Tentang Kami</h3>
         <div
           style={{
@@ -116,6 +150,14 @@ export default function Home() {
           </p>
           <Button>Read More</Button>
         </div>
+
+        <Image
+          src={"/leaf.svg"}
+          alt="leaf decor"
+          width={499.22}
+          height={461.33}
+          className={styles.leafDecorLeft}
+        />
       </section>
       <section className={styles.sectionBlogs}>
         <h3 style={{ textAlign: "center", color: "var(--white)" }}>Blogs</h3>
@@ -135,3 +177,5 @@ export default function Home() {
     </main>
   );
 }
+
+export default withAuth(Home);

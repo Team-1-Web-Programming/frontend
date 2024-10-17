@@ -2,14 +2,13 @@
 import { usePathname } from "next/navigation";
 import AdminLayout from "@/layout/AdminLayout";
 import UserLayout from "@/layout/UserLayout";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useCallback, useEffect, useRef, useState } from "react";
 import UnauthorizedLayout from "./UnauthorizedLayout";
 import { getToken } from "@/app/api/token";
-import { CsrfTokenContext, useCsrfToken } from "@shopify/react-csrf";
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5, // Cache for 5 minutes
@@ -25,7 +24,6 @@ export default function Layout({ children, token }: any) {
   const isAuthPages = authPages.includes(pathname);
   const isAdminPages = pathname.startsWith("/dashboard");
   const initialRender = useRef(true);
-
   const renderLayout = useCallback(() => {
     if (isAuthPages) {
       return <UnauthorizedLayout>{children}</UnauthorizedLayout>;
@@ -43,14 +41,10 @@ export default function Layout({ children, token }: any) {
     }
   }, []);
 
-
   return (
-    <CsrfTokenContext.Provider value={token}>
-      <QueryClientProvider client={queryClient}>
-        {/* <div>{csrfToken}</div> */}
-        {renderLayout()}
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </CsrfTokenContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      {renderLayout()}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }

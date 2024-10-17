@@ -2,7 +2,13 @@
 import Image from "next/image";
 import styles from "./Header.module.css";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import Dropdown from "../Dropdown";
+import { logout } from "@/app/api/logout";
+import { toast } from "react-toastify";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { queryClient } from "@/layout/Layout";
+import { getUser } from "@/app/api/user";
 
 const routes = {
   admin: {
@@ -12,6 +18,7 @@ const routes = {
     blog: "/dashboard/blog",
     login: "/dashboard/login",
     profil: "/dashboard/profil",
+    // notification: "/notification",
   },
   user: {
     home: "/",
@@ -20,6 +27,7 @@ const routes = {
     blog: "/blog",
     login: "/login",
     profil: "/profil",
+    // notification: "/notification",
   },
   unauthorized: {
     home: "/",
@@ -28,6 +36,7 @@ const routes = {
     blog: "/blog",
     login: "/login",
     profil: "/profil",
+    // notification: "/notification",
   },
 };
 
@@ -38,14 +47,35 @@ const COLOR_ACTIVE = {
 export default function Header(props: {
   type: "admin" | "user" | "unauthorized";
 }) {
+  const router = useRouter();
   const { type = "user" } = props;
   const pathname = usePathname();
+
+  const qUser = useQuery({ queryKey: ["/user"], queryFn: getUser });
+
+  console.log(qUser, "mama");
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: logout,
+  });
+
+  const onLogout = () => {
+    mutate(undefined, {
+      onSuccess: () => {
+        toast.success("Logout successful!");
+      },
+      onSettled: () => {
+        router.push("/login");
+        queryClient.clear();
+      },
+    });
+  };
 
   return (
     <header className={styles.navBar}>
       <div className={styles.wrapper}>
         <div className={styles.logoContainer}>
-          <Link href={routes?.[type]?.home}>
+          <Link href={'/'}>
             <Image
               src="/logo.svg"
               alt="Guna Ulang Logo"
@@ -85,21 +115,56 @@ export default function Header(props: {
           </div>
         )}
         <div className={styles.profileGroupContainer}>
-          {type === "user" && (
-            <Link href={routes?.[type]?.login}>
-              <Image
-                src="/notification.svg"
-                width={26}
-                height={23}
-                priority
-                alt="notification"
-              />
-            </Link>
-          )}
+          {/* {type === "user" && (
+            <div>
+              <Link href={routes?.[type]?.notification}>
+                <Image
+                  src="/notification.svg"
+                  width={26}
+                  height={23}
+                  priority
+                  alt="notification"
+                />
+              </Link>
+            </div>
+          )} */}
           {type !== "unauthorized" && (
-            <Link href={routes?.[type]?.profil}>
-              <Image src="/profile.png" width={24} height={24} alt="profile" />
-            </Link>
+            <div>
+              <Dropdown
+                trigger="hover"
+                overlay={[
+                  {
+                    render: (
+                      <Link href={routes?.[type]?.profil}>
+                        <div>Profil</div>
+                      </Link>
+                    ),
+                  },
+                  ...(qUser?.data?.data?.email === "admin@admin.com"
+                    ? [
+                        {
+                          render: (
+                            <Link href={routes?.["admin"]?.home}>
+                              <div>Dashboard</div>
+                            </Link>
+                          ),
+                        },
+                      ]
+                    : []),
+                  {
+                    action: onLogout,
+                    render: <div style={{ color: "red" }}>Logout</div>,
+                  },
+                ]}
+              >
+                <Image
+                  src="/profile.png"
+                  width={24}
+                  height={24}
+                  alt="profile"
+                />
+              </Dropdown>
+            </div>
           )}
         </div>
       </div>

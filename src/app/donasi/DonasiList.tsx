@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-table";
 import styles from "./DonasiList.module.css";
 import { useState } from "react";
+import Dropdown from "@/components/Dropdown";
 
 type Person = {
   id: number;
@@ -366,40 +367,50 @@ const columns = [
   columnHelper.accessor((row) => row.id, {
     id: "id",
     cell: (info) => (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 2,
-          cursor: "pointer",
-          padding: 10,
-        }}
+      <Dropdown
+        trigger="hover"
+        overlay={[
+          { render: <div style={{ color: "orange" }}>Edit</div> },
+          {
+            render: <div style={{ color: "red" }}>Hapus</div>,
+          },
+        ]}
       >
         <div
           style={{
-            borderRadius: "100%",
-            height: 5,
-            width: 5,
-            backgroundColor: "black",
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            cursor: "pointer",
+            padding: 10,
           }}
-        />
-        <div
-          style={{
-            borderRadius: "100%",
-            height: 5,
-            width: 5,
-            backgroundColor: "black",
-          }}
-        />
-        <div
-          style={{
-            borderRadius: "100%",
-            height: 5,
-            width: 5,
-            backgroundColor: "black",
-          }}
-        />
-      </div>
+        >
+          <div
+            style={{
+              borderRadius: "100%",
+              height: 5,
+              width: 5,
+              backgroundColor: "black",
+            }}
+          />
+          <div
+            style={{
+              borderRadius: "100%",
+              height: 5,
+              width: 5,
+              backgroundColor: "black",
+            }}
+          />
+          <div
+            style={{
+              borderRadius: "100%",
+              height: 5,
+              width: 5,
+              backgroundColor: "black",
+            }}
+          />
+        </div>
+      </Dropdown>
     ),
     header: () => <span>Action</span>,
     footer: (info) => info.column.id,

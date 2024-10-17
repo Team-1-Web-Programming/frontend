@@ -14,9 +14,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  token
+  token,
 }: Readonly<{
   children: React.ReactNode;
+  token: string;
 }>) {
   return (
     <html lang="en" style={{ height: "100%" }}>

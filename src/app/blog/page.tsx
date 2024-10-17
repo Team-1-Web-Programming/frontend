@@ -1,10 +1,13 @@
+'use client'
 import Button from "@/components/Button";
 import Image from "next/image";
 import BlogsCard from "@/components/Card/BlogsCard";
 import RenderHTML from "./RenderHTML";
 import styles from "./blog.module.css";
+import { withAuth } from "@/helpers/withAuth";
+import BlogPostSkeleton from "./BlogSkeleton";
 
-export default function Blog() {
+const Blog: React.FC = () => {
   return (
     <main>
       <header className={styles.blogHeader}>
@@ -42,4 +45,6 @@ export default function Blog() {
       </div>
     </main>
   );
-}
+};
+
+export default withAuth(Blog, BlogPostSkeleton);

@@ -41,10 +41,10 @@ export default function Profil() {
           </div>
           <div>
             <div>
-              <TextInput label="Nama" />
+              <TextInput name='name' label="Nama" />
             </div>
             <div>
-              <TextInput label="Password" />
+              <TextInput name="password" label="Password" />
             </div>
             <div style={{ marginTop: 20 }}>
               <Button>Save</Button>

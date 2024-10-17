@@ -1,7 +1,7 @@
 .firstSection {
   display: flex;
   align-items: center;
-  padding: 100px 20px;
+  padding: 80px 20px 0px;
 }
 
 .titleContainer,
@@ -24,8 +24,40 @@
   margin: auto;
 }
 
-
 .sectionBlogs {
   background-color: var(--primary-green);
   padding: 40px;
+}
+
+.sectionAboutUs {
+  position: relative;
+  width: 100%;
+}
+
+.section {
+  width: 100%;
+  position: relative;
+}
+
+.leafDecorRight {
+  position: absolute;
+  right: -15rem;
+  top: -12rem;
+  pointer-events: none;
+  transform: scaleX(-1);
+}
+
+.leafDecorLeft {
+  position: absolute;
+  left: -13rem;
+  top: -12rem;
+  pointer-events: none;
+}
+
+.bulpDecorLeft {
+  position: absolute;
+  left: 0;
+  top: -7rem;
+  transform: rotate(5deg);
+  pointer-events: none;
 }

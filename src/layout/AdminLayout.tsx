@@ -25,6 +25,9 @@ export default function AdminLayout(props: any) {
               <Link href={"/dashboard"} style={{ color: "inherit" }}>
                 <div style={{ padding: 10 }}>Home</div>
               </Link>
+              <Link href={"/dashboard/donasi"} style={{ color: "inherit" }}>
+                <div style={{ padding: 10 }}>Donasi</div>
+              </Link>
               <Link href={"/dashboard/kategori"} style={{ color: "inherit" }}>
                 <div style={{ padding: 10 }}>Kategori</div>
               </Link>

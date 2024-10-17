@@ -12,5 +12,6 @@ export const register = async (data: {
     console.log(res);
   } catch (error: any) {
     toast.error(error || error?.message, { pauseOnHover: true });
+    throw error
   }
 };
