@@ -2,6 +2,7 @@
 import Breadcrumb from "@/components/Breadcrumb";
 import Button from "@/components/Button";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 const images = [
   "https://w7.pngwing.com/pngs/682/981/png-transparent-number-1-miscellaneous-rectangle-number-thumbnail.png",
   "https://w7.pngwing.com/pngs/604/843/png-transparent-number-parity-building-2-miscellaneous-angle-building.png",
@@ -10,6 +11,13 @@ const images = [
 ];
 
 export default function ProductDetail() {
+  const pathname = usePathname()
+
+  const handleRedirectWA = () => {
+    const message = encodeURIComponent(`Hi, I want to claim this ${window.location.origin}${pathname}. Is it still available?`);
+    const whatsappUrl = `https://wa.me/${`08277272121`}?text=${message}`;
+    window.location.href = whatsappUrl;
+  };
   return (
     <main>
       <Breadcrumb />
@@ -57,7 +65,7 @@ export default function ProductDetail() {
           </p>
           <div style={{ display: "flex", gap: 20 }}>
             <Button>Klaim</Button>
-            <Button type="secondary">Hubungi Donor</Button>
+            <Button type="secondary" onClick={handleRedirectWA}>Hubungi Donor</Button>
           </div>
           <div>
             <h4>Detail</h4>
