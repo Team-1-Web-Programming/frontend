@@ -46,8 +46,8 @@ export default function SignUp() {
     <main className={styles.container}>
       <div className={styles.mainContent}>
         <div>
-          <h1>Selamat Datang!</h1>
-          <p>Welcome back! Please enter your details.</p>
+          <h1>Sign Up</h1>
+          <p>Please enter your details.</p>
         </div>
         <form>
           <TextInput
