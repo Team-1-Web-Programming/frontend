@@ -16,7 +16,9 @@ export default function TextInput(props: TextInputProps) {
   const { ...rest } = props;
   return (
     <div className={styles.inputText}>
-      <label htmlFor={props?.name}>{props?.label}</label>
+      <label htmlFor={props?.name}>
+        <b>{props?.label}</b>
+      </label>
       <input
         className={styles.input}
         placeholder="Input"
