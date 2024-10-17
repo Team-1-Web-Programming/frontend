@@ -1,4 +1,4 @@
-import ImageUploader from "../tambah-donasi/image-uploader";
+import ImageUploader from "../donasi/tambah-donasi/image-uploader";
 
 export default function Dashboard() {
   return (

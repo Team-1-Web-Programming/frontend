@@ -38,7 +38,7 @@ membantu sesama dengan mendonasikan barang yang tidak lagi Anda gunakan.”`}
           </p>
 
           <div>
-            <Link href={"/tambah-donasi"}>
+            <Link href={"/donasi/tambah-donasi"}>
               <Button>Berbagi Sekarang!</Button>
             </Link>
           </div>
@@ -415,7 +415,9 @@ membantu sesama dengan mendonasikan barang yang tidak lagi Anda gunakan.”`}
             Mari kita bersama-sama mengurangi limbah dengan mendonasikan barang
             yang tidak terpakai!
           </p>
-          <Button>Jadi Donor Sekarang!</Button>
+          <Link href={"/donasi/tambah-donasi"}>
+            <Button>Jadi Donor Sekarang!</Button>
+          </Link>
         </div>
       </section>
       <section style={{ maxWidth: "60rem", margin: "auto", padding: 40 }}>

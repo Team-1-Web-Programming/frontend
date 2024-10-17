@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import styles from './Switch.module.css'; // Import the CSS module
+import styles from './Switch.module.css';
 
 const SwitchButton: React.FC = () => {
   const [isChecked, setIsChecked] = useState(false);

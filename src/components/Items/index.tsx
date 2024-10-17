@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./Items.module.css";
 import Button from "../Button";
+import Link from "next/link";
 
 export default function ItemCard() {
   return (
@@ -39,7 +40,9 @@ export default function ItemCard() {
         <div className={styles.rightDetail}>123 Reviews</div>
       </div>
       <div className={styles.buttonContainer}>
-        <Button>Klaim</Button>
+        <Link href={"/kategori/baju/bajuinas"}>
+          <Button>Klaim</Button>
+        </Link>
       </div>
     </div>
   );

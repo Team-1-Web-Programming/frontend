@@ -63,7 +63,9 @@ function Home() {
           <ItemCard />
         </div>
         <div>
-          <Button type="secondary">EXPLORE MORE</Button>
+          <Link href={"/kategori"}>
+            <Button type="secondary">EXPLORE MORE</Button>
+          </Link>
         </div>
         <Image
           src={"/bulp.svg"}
@@ -75,7 +77,10 @@ function Home() {
       </section>
       <section
         className={styles.section}
-        style={{ backgroundColor: "rgba(85, 183, 107, 0.2)", padding: '20px 0' }}
+        style={{
+          backgroundColor: "rgba(85, 183, 107, 0.2)",
+          padding: "20px 0",
+        }}
       >
         <h3 style={{ textAlign: "center" }}>Kategori</h3>
         <div>
@@ -111,7 +116,12 @@ function Home() {
           alt="team decor"
           fill
           unoptimized
-          style={{ opacity: 0.15, pointerEvents: "none" , backgroundColor: 'red', objectFit: 'cover' }}
+          style={{
+            opacity: 0.15,
+            pointerEvents: "none",
+            backgroundColor: "red",
+            objectFit: "cover",
+          }}
         />
         <h3 style={{ textAlign: "center" }}>Tentang Kami</h3>
         <div
@@ -148,7 +158,9 @@ function Home() {
             dalam pengurangan limbah demi menjaga bumi untuk generasi
             mendatang.”
           </p>
-          <Button>Read More</Button>
+          <Link href={"/blog"}>
+            <Button>Read More</Button>
+          </Link>
         </div>
 
         <Image

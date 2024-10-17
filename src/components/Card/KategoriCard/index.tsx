@@ -1,8 +1,9 @@
+import Button from "@/components/Button";
 import Image from "next/image";
 
 export default function KategoriCard() {
   return (
-    <div style={{paddingBottom: 20 }}>
+    <div style={{ paddingBottom: 20 }}>
       <Image
         src={"https://picsum.photos/200/300"}
         width={260}
@@ -19,7 +20,7 @@ export default function KategoriCard() {
         <span>Cotton</span>
         <h3>Cotton Tote Bag</h3>
         <div>
-          <Image src={"./location.svg"} alt="loc" width={16} height={16} />
+          <Image src={"/location.svg"} alt="loc" width={16} height={16} />
           <span>Abcd, Bali</span>
         </div>
       </div>

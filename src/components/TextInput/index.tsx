@@ -4,12 +4,12 @@ import { InputHTMLAttributes } from "react";
 import { ErrorMessage } from "@hookform/error-message";
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string; // Name for the input field
+  name: string;
   label: string;
-  type?: string; // Label for the input field
-  placeholder?: string; // Optional placeholder
-  register?: UseFormRegister<any>; // Type for the `register` function from React Hook Form
-  options?: ValidationRule<any>; // Custom validation options for `register`
+  type?: string;
+  placeholder?: string;
+  register?: UseFormRegister<any>;
+  options?: ValidationRule<any>;
 }
 
 export default function TextInput(props: TextInputProps) {
