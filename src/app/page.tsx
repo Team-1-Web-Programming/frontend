@@ -216,6 +216,26 @@ function Home() {
               />
             );
           })}
+          {!queries?.[1]?.isLoading &&
+            (!queries?.[1]?.data?.data && (
+              <div
+                style={{
+                  padding: 20,
+                  display: "flex",
+                  flexDirection: 'column',
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src={"/no_data.svg"}
+                  alt="no data"
+                  width={400}
+                  height={300}
+                />
+                <h3 style={{color: 'white'}}>No Data</h3>
+              </div>
+            ))}
         </div>
       </section>
     </main>
