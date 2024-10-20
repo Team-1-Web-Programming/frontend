@@ -3,6 +3,7 @@ import Breadcrumb from "@/components/Breadcrumb";
 import Button from "@/components/Button";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import ZoomImage from "@/components/ImageZoom";
 const images = [
   "https://picsum.photos/200/300",
   "https://picsum.photos/200/200",
@@ -28,12 +29,12 @@ export default function ProductDetail() {
       >
         <div>
           <div>
-            <Image
+            <ZoomImage
               src={"https://picsum.photos/200/300"}
               alt="product image"
               width={772}
               height={552}
-              style={{ borderRadius: 20 }}
+              // style={{ borderRadius: 20 }}
             />
           </div>
           <div style={{ display: "flex", gap: 10, marginTop: 20 }}>

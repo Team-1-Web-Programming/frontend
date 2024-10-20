@@ -1,0 +1,19 @@
+.imageContainer {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+.zoomImage {
+  transition: transform 0.3s ease, transform-origin 0.1s ease;
+  transform: scale(1);
+  will-change: transform, transform-origin;
+}
+
+.imageContainer:hover .zoomImage {
+  transform: scale(2);
+}
+
+  
