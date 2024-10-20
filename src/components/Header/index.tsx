@@ -14,7 +14,7 @@ const routes = {
   admin: {
     home: "/dashboard",
     donasi: "/dashboard/donasi",
-    history: "/donasi/history",
+    histori: "/donasi/histori",
     kategori: "/dashboard/kategori",
     blog: "/dashboard/blog",
     login: "/dashboard/login",
@@ -24,7 +24,7 @@ const routes = {
   user: {
     home: "/",
     donasi: "/donasi",
-    history: "/donasi/history",
+    histori: "/donasi/histori",
     kategori: "/kategori",
     blog: "/blog",
     login: "/login",
@@ -34,7 +34,7 @@ const routes = {
   unauthorized: {
     home: "/",
     donasi: "/donasi",
-    history: "/donasi/history",
+    histori: "/donasi/histori",
     kategori: "/kategori",
     blog: "/blog",
     login: "/login",
@@ -144,8 +144,8 @@ export default function Header(props: {
                   },
                   {
                     render: (
-                      <Link href={routes?.[type]?.history}>
-                        <div>History</div>
+                      <Link href={routes?.[type]?.histori}>
+                        <div>Histori</div>
                       </Link>
                     ),
                   },
