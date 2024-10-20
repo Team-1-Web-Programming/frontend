@@ -14,13 +14,9 @@ type TAddress = {
   postal_code: string;
   created_at: string | Date;
   updated_at: string | Date;
-}
+};
 
 export const getAddressById = async (id: string) => {
-  try {
-    const res = await apiClient.get(`/user/address/${id}`);
-    console.log(res);
-  } catch (error: any) {
-    toast.error(error || error?.message, { pauseOnHover: true });
-  }
+  const res = await apiClient.get(`/user/address/${id}`);
+  return res;
 };

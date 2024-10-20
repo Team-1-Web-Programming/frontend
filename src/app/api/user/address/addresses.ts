@@ -17,10 +17,6 @@ type TAddresses = {
 }[];
 
 export const getAddresses = async () => {
-  try {
-    const res = await apiClient.get("/user/address");
-    return res.data
-  } catch (error: any) {
-    toast.error(error || error?.message, { pauseOnHover: true });
-  }
+  const res = await apiClient.get("/user/address");
+  return res.data;
 };

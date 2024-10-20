@@ -7,25 +7,20 @@ export const addUserDonationProduct = async (data: {
   category_id: { value: number; label: string }[];
   media: Blob[];
 }) => {
-  try {
-    const fd = new FormData();
+  const fd = new FormData();
 
-    fd.append("title", data.title);
-    fd.append("description", data.description);
-    fd.append("amount", data.amount.toString()); 
+  fd.append("title", data.title);
+  fd.append("description", data.description);
+  fd.append("amount", data.amount.toString());
 
-    data.category_id.forEach((category) => {
-      fd.append("category_id[]", JSON.stringify(category.value));
-    });
+  data.category_id.forEach((category) => {
+    fd.append("category_id[]", JSON.stringify(category.value));
+  });
 
-    data.media.forEach((blob, index) => {
-      fd.append(`media[]`, blob, `media-${index + 1}.jpg`); 
-    });
+  data.media.forEach((blob, index) => {
+    fd.append(`media[]`, blob, `media-${index + 1}.jpg`);
+  });
 
-    const res = await apiClient.post("/user/donation/product", fd);
-    console.log(res)
-  } catch (error) {
-    console.log(error)
-    throw error;
-  }
+  const res = await apiClient.post("/user/donation/product", fd);
+  return res
 };

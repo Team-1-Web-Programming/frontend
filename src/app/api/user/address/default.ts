@@ -17,10 +17,6 @@ type TAddresses = {
 };
 
 export const getAddressDefault = async () => {
-  try {
-    const res = await apiClient.get("/user/address/default");
-    console.log(res);
-  } catch (error: any) {
-    toast.error(error || error?.message, { pauseOnHover: true });
-  }
+  const res = await apiClient.get("/user/address/default");
+  return res
 };

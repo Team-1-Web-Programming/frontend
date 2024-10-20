@@ -17,12 +17,7 @@ type TAddress = {
 };
 
 export const editAddress = async (data: TAddress) => {
-  try {
-    const { id, ...rest } = data;
-    const res = await apiClient.post(`/user/address/${id}`, rest);
-    return res;
-  } catch (error: any) {
-    toast.error(error || error?.message, { pauseOnHover: true });
-    throw error;
-  }
+  const { id, ...rest } = data;
+  const res = await apiClient.post(`/user/address/${id}`, rest);
+  return res;
 };

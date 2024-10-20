@@ -7,11 +7,6 @@ export const register = async (data: {
   password: string;
   password_confirmation: string;
 }) => {
-  try {
-    const res = await apiClient.post("/register", data);
-    console.log(res);
-  } catch (error: any) {
-    toast.error(error || error?.message, { pauseOnHover: true });
-    throw error
-  }
+  const res = await apiClient.post("/register", data);
+  return res;
 };
