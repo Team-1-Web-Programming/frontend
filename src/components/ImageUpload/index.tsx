@@ -8,6 +8,10 @@ import getCroppedImg from "./cropImage";
 import styles from "./ImageUpload.module.css";
 import Image from "next/image";
 import Button from "../Button";
+import { toast } from "react-toastify";
+
+const MAX_FILE_SIZE_MB = 1;
+const ALLOWED_TYPES = ["image/jpeg", "image/png"];
 
 const ImageUpload = (
   props: {
@@ -41,10 +45,24 @@ const ImageUpload = (
 
   const onDrop = useCallback((acceptedFiles: Blob[]) => {
     const file = acceptedFiles[0];
+
+    const isFileSizeValid = file.size <= MAX_FILE_SIZE_MB * 1024 * 1024;
+    const isFileTypeValid = ALLOWED_TYPES.includes(file.type);
+
+    if (!isFileSizeValid) {
+      toast.error("File size exceeds the 1MB limit.");
+      return;
+    }
+
+    if (!isFileTypeValid) {
+      toast.error("Invalid file type. Only JPEG and PNG are allowed.");
+      return;
+    }
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-      setImageSrc(reader?.result);
+      setImageSrc(reader.result);
       setIsModalOpen(true);
     };
   }, []);
@@ -96,6 +114,10 @@ const ImageUpload = (
           )
         }
       </Dropzone>
+      <p>
+        <span style={{ color: "red" }}>*</span>Ukuran maximum file:{" "}
+        {MAX_FILE_SIZE_MB}MB
+      </p>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleCloseModal}
