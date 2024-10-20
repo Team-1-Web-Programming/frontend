@@ -49,7 +49,7 @@ export default function SignUp() {
           <h1>Sign Up</h1>
           <p>Please enter your details.</p>
         </div>
-        <form>
+        <form style={{display: 'flex', flexDirection: 'column', gap: 10}}>
           <TextInput
             label="Name"
             name="name"

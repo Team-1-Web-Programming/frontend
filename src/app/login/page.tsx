@@ -48,7 +48,7 @@ export default function Login() {
           <h1>Selamat Datang!</h1>
           <p>Welcome back! Please enter your details.</p>
         </div>
-        <form>
+        <form style={{display: 'flex', flexDirection: 'column', gap: 10}}>
           <TextInput
             label="Email"
             type="email"
