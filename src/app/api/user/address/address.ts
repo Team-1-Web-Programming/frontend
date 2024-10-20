@@ -18,7 +18,7 @@ type TAddress = {
 
 export const getAddressById = async (id: string) => {
   try {
-    const res = await apiClient.get(`/address/${id}`);
+    const res = await apiClient.get(`/user/address/${id}`);
     console.log(res);
   } catch (error: any) {
     toast.error(error || error?.message, { pauseOnHover: true });
