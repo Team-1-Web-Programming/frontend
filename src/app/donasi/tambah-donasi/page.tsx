@@ -9,10 +9,18 @@ import Select from "react-select";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import getDonationCategories from "@/app/api/donation/category";
 import { transformArrayToLabelValue, TransformOptions } from "./utils";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { addUserDonationProduct } from "@/app/api/user/donation/product/add";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import ReactModal from "react-modal";
+import SwitchButton from "@/components/Switch";
+import RadioButton from "@/components/Radio";
+import { getAddresses } from "@/app/api/user/address/addresses";
+import { addAddress } from "@/app/api/user/address/add";
+import { queryClient } from "@/layout/Layout";
+import { editAddress } from "@/app/api/user/address/edit";
+import { ErrorMessage } from "@hookform/error-message";
 
 const transformOptions: TransformOptions = {
   valueKey: "id",
@@ -21,11 +29,29 @@ const transformOptions: TransformOptions = {
 };
 
 export default function TambahDonasi() {
-  const router = useRouter()
+  const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedRadio, setSelectedRadio] = useState<string | number>("");
   const { control, register, handleSubmit, setValue, formState } = useForm();
+
+  const {
+    control: addressControl,
+    register: addressRegister,
+    handleSubmit: addressHandleSubmit,
+    setValue: addressSetValue,
+    formState: addressFormState,
+    getValues: getAddressValues,
+    reset,
+  } = useForm();
+
   const qCategoires = useQuery({
     queryKey: ["/donation/category"],
     queryFn: getDonationCategories,
+  });
+
+  const qAddresses = useQuery({
+    queryKey: ["/user/address"],
+    queryFn: getAddresses,
   });
 
   const transformedData = useMemo(() => {
@@ -37,18 +63,68 @@ export default function TambahDonasi() {
     mutationFn: addUserDonationProduct,
   });
 
+  const { mutate: mutateAddress, isPending: isAddressPending } = useMutation({
+    mutationKey: ["/user/address/add"],
+    mutationFn: addAddress,
+  });
+
+  const { mutate: mutateEditAddress, isPending: isEditAddressPending } =
+    useMutation({
+      mutationKey: ["/user/address/edit"],
+      mutationFn: editAddress,
+    });
+
   const onSubmit = (data: any) => {
     console.log(data, "dadadadada");
     mutate(data, {
       onSuccess() {
         // toast.success("Success! Thank you");
-        router.push('/donasi/histori')
+        router.push("/donasi/histori");
       },
       onError(error) {
-        toast.error(`Error! ${error?.message}`)
-      }
+        toast.error(`Error! ${error?.message}`);
+      },
     });
   };
+
+  const onAddressSubmit = (data: any) => {
+    console.log(data, "address");
+    mutateAddress(data, {
+      onSuccess() {
+        toast.success("Success! Berhasil menambahkan address");
+        queryClient.invalidateQueries({ queryKey: ["/user/address"] });
+        handleToggleModal();
+        reset();
+      },
+      onError(error) {
+        toast.error(`Error! ${error?.message}`);
+      },
+    });
+  };
+
+  const onRadioChange = (value: string | number) => {
+    setSelectedRadio(value);
+    const data = qAddresses?.data?.find((el: any) => {
+      return el.id?.toString() === value;
+    });
+    if (data) {
+      setSelectedRadio(data?.id);
+      mutateEditAddress(data);
+    }
+  };
+
+  const handleToggleModal = () => {
+    setIsModalOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (!qAddresses.isLoading) {
+      const selectedAddress = qAddresses?.data?.find((el: any) => {
+        return el.is_default === 1;
+      });
+      setSelectedRadio(selectedAddress?.id);
+    }
+  }, [qAddresses.isLoading]);
 
   return (
     <main className={styles.container}>
@@ -109,12 +185,185 @@ export default function TambahDonasi() {
       >
         <h3>Foto dan Video</h3>
         <div style={{ flex: 1 }}>
-          <ImageUploader setImages={(images: any) => setValue("media[]", images)} />
+          <ImageUploader
+            limit={1}
+            setImages={(images: any) => setValue("media[]", images)}
+          />
+        </div>
+      </div>
+      <div
+        className={styles.card}
+        style={{ display: "flex", gap: 20, flexDirection: "column" }}
+      >
+        <h3>Alamat</h3>
+        <div style={{ flex: 1 }}>
+          {qAddresses.data?.map((el: any) => (
+            <div
+              key={el?.id}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: 20,
+              }}
+            >
+              <RadioButton
+                name="id"
+                value={el.id}
+                selectedValue={selectedRadio}
+                onChange={onRadioChange}
+              />
+              <div>
+                <h4>{`${el?.address}, ${el?.postal_code}`}</h4>
+                <p>{`${el?.city}, ${el?.province}, ${el?.country}`}</p>
+                <p>{`Kontak: ${el?.name}, ${el?.phone}`}</p>
+              </div>
+            </div>
+          ))}
+
+          <Button onClick={handleToggleModal}>Tambah Alamat</Button>
         </div>
       </div>
       <Button onClick={handleSubmit(onSubmit)} loading={isPending}>
         Save
       </Button>
+
+      <ReactModal
+        isOpen={isModalOpen}
+        onRequestClose={handleToggleModal}
+        contentLabel="Edit Image"
+        className={styles.modalContent}
+        overlayClassName={styles.modalOverlay}
+        style={{
+          overlay: {
+            zIndex: 1000,
+            backgroundColor: "rgba(0, 0, 0, 0.75)",
+          },
+          content: {
+            padding: 30,
+            margin: "auto",
+            bottom: "auto",
+            left: "50%",
+            right: "auto",
+            transform: "translateX(-50%) translateY(10%)",
+          },
+        }}
+      >
+        <h3>Tambah Alamat</h3>
+
+        <form
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            flex: 2,
+            gap: 10,
+            marginBottom: 20,
+            width: "100%",
+          }}
+        >
+          <TextInput
+            name={"name"}
+            register={addressRegister}
+            options={{ required: "Required" }}
+            label="Nama"
+            placeholder="Amanda"
+          />
+          <ErrorMessage
+            name={"name"}
+            errors={addressFormState?.errors}
+            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
+          />
+          <TextInput
+            name={"phone"}
+            register={addressRegister}
+            options={{ required: "Required" }}
+            label="Phone"
+            placeholder="081234567890"
+          />
+          <ErrorMessage
+            name={"phone"}
+            errors={addressFormState?.errors}
+            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
+          />
+          <TextInput
+            name={"address"}
+            register={addressRegister}
+            options={{ required: "Required" }}
+            label="Adress"
+            placeholder="No. 111, Jalan Mawar Melati, Indah"
+          />
+          <ErrorMessage
+            name={"address"}
+            errors={addressFormState?.errors}
+            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
+          />
+          <TextInput
+            name={"city"}
+            register={addressRegister}
+            options={{ required: "Required" }}
+            label="City"
+            placeholder="Sleman"
+          />
+          <ErrorMessage
+            name={"city"}
+            errors={addressFormState?.errors}
+            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
+          />
+          <TextInput
+            name={"province"}
+            register={addressRegister}
+            options={{ required: "Required" }}
+            label="Provinsi"
+            placeholder="Yogyakarta"
+          />
+          <ErrorMessage
+            name={"province"}
+            errors={addressFormState?.errors}
+            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
+          />
+          <TextInput
+            name={"country"}
+            register={addressRegister}
+            label="Negara"
+            placeholder="Indonesia"
+            disabled
+            defaultValue={"Indonesia"}
+          />
+          <TextInput
+            name={"postal_code"}
+            options={{ required: "Required" }}
+            register={addressRegister}
+            label="Kode Pos"
+            placeholder="12345"
+          />
+          <ErrorMessage
+            name={"postal_code"}
+            errors={addressFormState?.errors}
+            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
+          />
+          <div
+            className={styles.row}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <b>Jadikan Alamat Utama</b>
+            <SwitchButton
+              isChecked={getAddressValues().is_default}
+              onChange={(isChecked: boolean) =>
+                addressSetValue("is_default", isChecked ? 1 : 0)
+              }
+            />
+          </div>
+        </form>
+        <Button
+          onClick={addressHandleSubmit(onAddressSubmit)}
+          loading={isAddressPending}
+        >
+          Save
+        </Button>
+      </ReactModal>
     </main>
   );
 }

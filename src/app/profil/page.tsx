@@ -39,7 +39,7 @@ export default function Profil() {
               </div>
             </ImageUpload>
           </div>
-          <div>
+          <form>
             <div>
               <TextInput name='name' label="Nama" />
             </div>
@@ -49,7 +49,7 @@ export default function Profil() {
             <div style={{ marginTop: 20 }}>
               <Button>Save</Button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
       <div
