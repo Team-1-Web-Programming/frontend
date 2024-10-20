@@ -8,6 +8,7 @@ import { withAuth } from "@/helpers/withAuth";
 import BlogPostSkeleton from "./BlogSkeleton";
 import { useQuery } from "@tanstack/react-query";
 import getBlogs from "../api/blogs/blogs";
+import Link from "next/link";
 
 const Blog: React.FC = (props?: { data?: any }) => {
   const qBlogs = useQuery({
@@ -27,7 +28,9 @@ const Blog: React.FC = (props?: { data?: any }) => {
           Baca artikel terbaru dari Gunaulang di sini.
         </h4>
         <div>
-          <Button>Artikel Terbaru</Button>
+          <Link href={"/blog"}>
+            <Button>Artikel Terbaru</Button>
+          </Link>
         </div>
       </header>
       <article className={styles.content}>
