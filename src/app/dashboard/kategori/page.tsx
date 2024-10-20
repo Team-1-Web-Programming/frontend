@@ -34,18 +34,15 @@ export default function DashboardBlogs() {
       onSuccess() {
         toast.success("Success!");
       },
-      onError() {
-        toast.error("Error!");
-      },
       onSettled() {
-          queryClient.invalidateQueries({queryKey: ['/donation/category']})
-          handleToggleModal()
-          reset()
-      }
+        queryClient.invalidateQueries({ queryKey: ["/donation/category"] });
+        handleToggleModal();
+        reset();
+      },
     });
   };
   return (
-    <main >
+    <main>
       <KategoriList onClickAdd={handleToggleModal} />
       <ReactModal
         isOpen={isModalOpen}

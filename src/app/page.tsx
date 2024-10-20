@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useQueries } from "@tanstack/react-query";
 import getBlogs from "./api/blogs/blogs";
 import getDonationCategories from "./api/donation/category";
+import getDonationProduct from "./api/donation/product";
 
 const imageList = [
   "https://picsum.photos/400/300",
@@ -35,6 +36,10 @@ function Home() {
       {
         queryKey: ["/blog"],
         queryFn: getBlogs,
+      },
+      {
+        queryKey: ["/donation/product"],
+        queryFn: getDonationProduct,
       },
     ],
   });
@@ -82,9 +87,14 @@ function Home() {
       >
         <h3>Di Sekitar Kamu</h3>
         <div className={styles.itemsContainer}>
-          <ItemCard />
-          <ItemCard />
-          <ItemCard />
+          {queries?.[2]?.data?.slice?.(0, 3)?.map((el: any) => (
+            <ItemCard
+              key={el?.id}
+              title={el?.title}
+              imgSrc={el?.donation_product_media?.[0]?.url}
+              redirect={`/kategori/${el?.donation_category?.[0]?.title}/${el?.id}`}
+            />
+          ))}
         </div>
         <div>
           <Link href={"/kategori"}>
@@ -216,26 +226,25 @@ function Home() {
               />
             );
           })}
-          {!queries?.[1]?.isLoading &&
-            (!queries?.[1]?.data?.data && (
-              <div
-                style={{
-                  padding: 20,
-                  display: "flex",
-                  flexDirection: 'column',
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  src={"/no_data.svg"}
-                  alt="no data"
-                  width={400}
-                  height={300}
-                />
-                <h3 style={{color: 'white'}}>No Data</h3>
-              </div>
-            ))}
+          {!queries?.[1]?.isLoading && !queries?.[1]?.data?.data && (
+            <div
+              style={{
+                padding: 20,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Image
+                src={"/no_data.svg"}
+                alt="no data"
+                width={400}
+                height={300}
+              />
+              <h3 style={{ color: "white" }}>No Data</h3>
+            </div>
+          )}
         </div>
       </section>
     </main>

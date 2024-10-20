@@ -21,6 +21,8 @@ import { addAddress } from "@/app/api/user/address/add";
 import { queryClient } from "@/layout/Layout";
 import { editAddress } from "@/app/api/user/address/edit";
 import { ErrorMessage } from "@hookform/error-message";
+import { getCitiesByProvince } from "@/app/api/city";
+import { getProvince } from "@/app/api/provinsi";
 
 const transformOptions: TransformOptions = {
   valueKey: "id",
@@ -32,7 +34,9 @@ export default function TambahDonasi() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRadio, setSelectedRadio] = useState<string | number>("");
-  const { control, register, handleSubmit, setValue, formState } = useForm();
+  const [selectedProvince, setSelectedProvince] = useState<any>();
+  const { control, register, handleSubmit, setValue, formState, getValues } =
+    useForm();
 
   const {
     control: addressControl,
@@ -42,6 +46,7 @@ export default function TambahDonasi() {
     formState: addressFormState,
     getValues: getAddressValues,
     reset,
+    resetField,
   } = useForm();
 
   const qCategoires = useQuery({
@@ -52,6 +57,18 @@ export default function TambahDonasi() {
   const qAddresses = useQuery({
     queryKey: ["/user/address"],
     queryFn: getAddresses,
+  });
+
+  const { data: provinceOptions } = useQuery({
+    queryKey: ["/provinsi"],
+    queryFn: getProvince,
+    staleTime: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
+
+  const { data: cityOptions } = useQuery({
+    queryKey: ["/cities", selectedProvince?.id],
+    queryFn: getCitiesByProvince,
+    staleTime: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
   const transformedData = useMemo(() => {
@@ -75,31 +92,25 @@ export default function TambahDonasi() {
     });
 
   const onSubmit = (data: any) => {
-    console.log(data, "dadadadada");
     mutate(data, {
       onSuccess() {
-        // toast.success("Success! Thank you");
         router.push("/donasi/histori");
-      },
-      onError(error) {
-        toast.error(`Error! ${error?.message}`);
       },
     });
   };
 
   const onAddressSubmit = (data: any) => {
-    console.log(data, "address");
-    mutateAddress(data, {
-      onSuccess() {
-        toast.success("Success! Berhasil menambahkan address");
-        queryClient.invalidateQueries({ queryKey: ["/user/address"] });
-        handleToggleModal();
-        reset();
-      },
-      onError(error) {
-        toast.error(`Error! ${error?.message}`);
-      },
-    });
+    mutateAddress(
+      { ...data, province: data?.province?.value, city: data?.city?.value },
+      {
+        onSuccess() {
+          toast.success("Success! Berhasil menambahkan address");
+          queryClient.invalidateQueries({ queryKey: ["/user/address"] });
+          handleToggleModal();
+          reset();
+        },
+      }
+    );
   };
 
   const onRadioChange = (value: string | number) => {
@@ -285,6 +296,58 @@ export default function TambahDonasi() {
             render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
           />
           <TextInput
+            name={"country"}
+            register={addressRegister}
+            label="Negara"
+            placeholder="Indonesia"
+            disabled
+            defaultValue={"Indonesia"}
+          />
+
+          <div className={styles.row}>
+            <b>Provinsi</b>
+            <Controller
+              name="province"
+              control={addressControl}
+              rules={{ required: "Required" }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  options={provinceOptions}
+                  onChange={(value) => {
+                    addressSetValue("province", value);
+                    resetField("city");
+                    setSelectedProvince(
+                      provinceOptions?.find((e) => e.id === value.id)
+                    );
+                  }}
+                  placeholder="Yogyakarta"
+                />
+              )}
+            />
+          </div>
+          <ErrorMessage
+            name={"province"}
+            errors={addressFormState?.errors}
+            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
+          />
+          <div className={styles.row}>
+            <b>City</b>
+            <Controller
+              name="city"
+              control={addressControl}
+              rules={{ required: "Required" }}
+              render={({ field }) => (
+                <Select {...field} options={cityOptions} placeholder="Sleman" />
+              )}
+            />
+          </div>
+          <ErrorMessage
+            name={"city"}
+            errors={addressFormState?.errors}
+            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
+          />
+          <TextInput
             name={"address"}
             register={addressRegister}
             options={{ required: "Required" }}
@@ -295,38 +358,6 @@ export default function TambahDonasi() {
             name={"address"}
             errors={addressFormState?.errors}
             render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
-          />
-          <TextInput
-            name={"city"}
-            register={addressRegister}
-            options={{ required: "Required" }}
-            label="City"
-            placeholder="Sleman"
-          />
-          <ErrorMessage
-            name={"city"}
-            errors={addressFormState?.errors}
-            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
-          />
-          <TextInput
-            name={"province"}
-            register={addressRegister}
-            options={{ required: "Required" }}
-            label="Provinsi"
-            placeholder="Yogyakarta"
-          />
-          <ErrorMessage
-            name={"province"}
-            errors={addressFormState?.errors}
-            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
-          />
-          <TextInput
-            name={"country"}
-            register={addressRegister}
-            label="Negara"
-            placeholder="Indonesia"
-            disabled
-            defaultValue={"Indonesia"}
           />
           <TextInput
             name={"postal_code"}

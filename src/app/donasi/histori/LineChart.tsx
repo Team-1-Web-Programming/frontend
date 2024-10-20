@@ -65,7 +65,6 @@ const DonasiAnalisisChart = () => {
     fullMonthlyLabels
   );
 
-  console.log(slicedMonthlyLabels?.length);
   const monthlyData = {
     labels: slicedMonthlyLabels,
     datasets: [

@@ -54,7 +54,13 @@ export default function Header(props: {
   const { type = "user" } = props;
   const pathname = usePathname();
 
-  const qUser = useQuery({ queryKey: ["/user"], queryFn: getUser });
+  const qUser = useQuery({
+    queryKey: ["/user"],
+    queryFn: getUser,
+    retry(failureCount, error) {
+      return failureCount <= 1;
+    },
+  });
 
   const { mutate } = useMutation({
     mutationFn: logout,

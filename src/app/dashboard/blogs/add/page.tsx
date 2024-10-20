@@ -30,16 +30,13 @@ export default function AddBlogs() {
     mutate(
       {
         ...data,
-        date: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        date: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         content: quillRef.current.firstChild.innerHTML,
       },
       {
         onSuccess() {
           router.push("/dashboard/blogs");
           queryClient.invalidateQueries({ queryKey: ["/blogs"] });
-        },
-        onError(err) {
-          toast.error(err.message);
         },
       }
     );

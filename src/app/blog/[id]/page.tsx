@@ -8,7 +8,5 @@ export default function BlogById({ params }: { params: { id: string } }) {
     queryKey: [`/blog/${params?.id}`],
     queryFn: async () => await getBlogById(params?.id)
   });
-
-  console.log(qBlogById?.data, 'mayan')
   return <Blog data={qBlogById?.data} />;
 }

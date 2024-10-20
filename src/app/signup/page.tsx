@@ -22,22 +22,15 @@ export default function SignUp() {
     },
   });
 
-  console.log(formState)
   const { mutate, isPending } = useMutation({
     mutationFn: register,
   });
 
   const onSubmit = (data: SignUpData) => {
-    console.log(data);
     mutate(data, {
       onSuccess: () => {
         toast.success("Register successful!");
         router.push("/");
-      },
-      onError: (error: any) => {
-        toast.error(error.response?.data?.message || "Register failed.");
-      },
-      onSettled: () => {
       },
     });
   };

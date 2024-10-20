@@ -26,17 +26,10 @@ export default function Login() {
   });
 
   const onSubmit = (data: LoginData) => {
-    console.log(data);
     mutate(data, {
       onSuccess: () => {
         toast.success("Login successful!");
         router.push("/");
-      },
-      onError: (error: any) => {
-        toast.error(error.response?.data?.message || "Login failed.");
-      },
-      onSettled: () => {
-        // Optional: Runs on both success and error
       },
     });
   };
@@ -48,7 +41,7 @@ export default function Login() {
           <h1>Selamat Datang!</h1>
           <p>Welcome back! Please enter your details.</p>
         </div>
-        <form style={{display: 'flex', flexDirection: 'column', gap: 10}}>
+        <form style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           <TextInput
             label="Email"
             type="email"
@@ -62,7 +55,7 @@ export default function Login() {
           <ErrorMessage
             errors={errors}
             name="email"
-            render={({ message }) => <p style={{color: 'red'}}>{message}</p>}
+            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
           />
           <TextInput
             label="Password"
@@ -76,7 +69,7 @@ export default function Login() {
           <ErrorMessage
             errors={errors}
             name="password"
-            render={({ message }) => <p style={{color: 'red'}}>{message}</p>}
+            render={({ message }) => <p style={{ color: "red" }}>{message}</p>}
           />
         </form>
         <div className={styles.buttonContainer}>

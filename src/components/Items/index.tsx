@@ -3,17 +3,25 @@ import styles from "./Items.module.css";
 import Button from "../Button";
 import Link from "next/link";
 
-export default function ItemCard() {
+export default function ItemCard({
+  title = "Barang",
+  imgSrc = "https://picsum.photos/360/450",
+  redirect = "",
+}: {
+  title?: string;
+  imgSrc?: string;
+  redirect?: string;
+}) {
   return (
     <div className={styles.container}>
       <Image
         className={styles.image}
-        src={"/floral-image.png"}
+        src={imgSrc}
         alt="floral-image"
         width={360}
         height={450}
       />
-      <h4>Bread</h4>
+      <h4>{title}</h4>
       <div className={styles.detailsContainer}>
         <div className={styles.leftDetail}>
           <div className={styles.detail}>
@@ -40,7 +48,7 @@ export default function ItemCard() {
         <div className={styles.rightDetail}>123 Reviews</div>
       </div>
       <div className={styles.buttonContainer}>
-        <Link href={"/kategori/baju/bajuinas"}>
+        <Link href={redirect}>
           <Button>Klaim</Button>
         </Link>
       </div>
