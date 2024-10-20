@@ -1,16 +1,23 @@
-import { useRef } from 'react';
-import Image from 'next/image';
-import { throttle } from 'lodash';
-import styles from './ZoomImage.module.css';
+import { CSSProperties, useRef } from "react";
+import Image from "next/image";
+import { throttle } from "lodash";
+import styles from "./ZoomImage.module.css";
 
 interface ZoomImageProps {
   src: string;
   alt: string;
   width?: string | number;
   height?: string | number;
+  style?: CSSProperties;
 }
 
-const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, width = '100%', height = '100%' }) => {
+const ZoomImage: React.FC<ZoomImageProps> = ({
+  src,
+  alt,
+  width = "100%",
+  height = "100%",
+  style = {},
+}) => {
   const imageRef = useRef<HTMLDivElement | null>(null);
 
   const handleMouseMove = throttle((e: React.MouseEvent) => {
@@ -21,18 +28,18 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, width = '100%', height 
     const x = ((e.clientX - left) / width) * 100;
     const y = ((e.clientY - top) / height) * 100;
 
-    const imageElement = container.querySelector('img');
+    const imageElement = container.querySelector("img");
     if (imageElement) {
       imageElement.style.transformOrigin = `${x}% ${y}%`;
     }
   }, 20);
 
   return (
-    <div 
-      className={styles.imageContainer} 
+    <div
+      className={styles.imageContainer}
       onMouseMove={handleMouseMove}
       ref={imageRef}
-      style={{ width, height }}
+      style={{ width, height, ...style }}
     >
       <Image
         src={src}
@@ -40,6 +47,7 @@ const ZoomImage: React.FC<ZoomImageProps> = ({ src, alt, width = '100%', height 
         layout="fill"
         objectFit="cover"
         className={styles.zoomImage}
+        style={style}
       />
     </div>
   );
