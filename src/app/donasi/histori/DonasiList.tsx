@@ -11,6 +11,7 @@ import Dropdown from "@/components/Dropdown";
 import { useQuery } from "@tanstack/react-query";
 import { getUserDonation } from "@/app/api/user/donation";
 import dayjs from "dayjs";
+import { getUser } from "@/app/api/user";
 
 type Person = {
   id: number;
@@ -317,127 +318,143 @@ const statusColor = {
   canceled: "red",
 };
 
-const columns = [
-  columnHelper.accessor("id", {
-    header: "No",
-    cell: (info) => info.row.index + 1,
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor("id", {
-    cell: (info) => info.getValue(),
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor((row) => row.created_at, {
-    id: "created_at",
-    cell: (info) => <i>{dayjs(info.getValue()).format("DD MMMM YYYY")}</i>,
-    header: () => <span>Date</span>,
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor("donor.name", {
-    header: () => "Donor",
-    cell: (info) => info.renderValue(),
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor("donee.name", {
-    header: () => "Donee",
-    cell: (info) => info.renderValue(),
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor("product.address_id", {
-    header: () => <span>Location_ID</span>,
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor("amount", {
-    header: () => <span>Amount</span>,
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor((row) => row.status, {
-    id: "status",
-    cell: (info) => (
-      <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
-        <div
-          style={{
-            borderRadius: "100%",
-            height: 8,
-            width: 8,
-            backgroundColor:
-              statusColor?.[
-                info.getValue() as "requested" | "canceled" | "taken"
-              ],
-          }}
-        />
-        <i>{info.getValue()}</i>
-      </div>
-    ),
-    header: () => <span>Status</span>,
-    footer: (info) => info.column.id,
-  }),
-  columnHelper.accessor((row) => row.id, {
-    id: "id",
-    cell: (info) => (
-      <Dropdown
-        trigger="hover"
-        overlay={[
-          { render: <div style={{ color: "orange" }}>Edit</div> },
-          {
-            render: <div style={{ color: "red" }}>Hapus</div>,
-          },
-        ]}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 2,
-            cursor: "pointer",
-            padding: 10,
-          }}
-        >
-          <div
-            style={{
-              borderRadius: "100%",
-              height: 5,
-              width: 5,
-              backgroundColor: "black",
-            }}
-          />
-          <div
-            style={{
-              borderRadius: "100%",
-              height: 5,
-              width: 5,
-              backgroundColor: "black",
-            }}
-          />
-          <div
-            style={{
-              borderRadius: "100%",
-              height: 5,
-              width: 5,
-              backgroundColor: "black",
-            }}
-          />
-        </div>
-      </Dropdown>
-    ),
-    header: () => <span>Action</span>,
-    footer: (info) => info.column.id,
-  }),
-];
-
 export default function DonasiList() {
   const [data, setData] = useState(() => [...defaultData]);
 
+  const qUser = useQuery({
+    queryKey: ["/user"],
+    queryFn: getUser,
+  });
   const qDonasiHistory = useQuery({
     queryFn: getUserDonation,
     queryKey: ["/user/donation"],
   });
 
+  const columns = [
+    columnHelper.accessor("id", {
+      header: "No",
+      cell: (info) => info.row.index + 1,
+      footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor("id", {
+      cell: (info) => info.getValue(),
+      footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor((row) => row.created_at, {
+      id: "created_at",
+      cell: (info) => <i>{dayjs(info.getValue()).format("DD MMMM YYYY")}</i>,
+      header: () => <span>Date</span>,
+      footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor("donor.name", {
+      header: () => "Donor",
+      cell: (info) => info.renderValue(),
+      footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor("donee.name", {
+      header: () => "Donee",
+      cell: (info) => info.renderValue(),
+      footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor("product.address_id", {
+      header: () => <span>Location_ID</span>,
+      footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor("amount", {
+      header: () => <span>Amount</span>,
+      footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor((row) => row.status, {
+      id: "status",
+      cell: (info) => (
+        <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+          <div
+            style={{
+              borderRadius: "100%",
+              height: 8,
+              width: 8,
+              backgroundColor:
+                statusColor?.[
+                  info.getValue() as "requested" | "canceled" | "taken"
+                ],
+            }}
+          />
+          <i>{info.getValue()}</i>
+        </div>
+      ),
+      header: () => <span>Status</span>,
+      footer: (info) => info.column.id,
+    }),
+    columnHelper.accessor((row) => row, {
+      id: "action",
+      cell: (info) => {
+        console.log(info.getValue(), "indo");
+        var isDonee = info.getValue().donee_id === qUser.data?.data?.id;
+        var isDonor = info.getValue().donor_id === qUser.data?.data?.id;
+        var overl = [];
+        if (isDonee) {
+          overl = [{ render: <div style={{ color: "orange" }}>Cancel</div> }];
+        } else {
+          overl = [
+            {
+              render: (
+                <div style={{ color: "var(--primary-green)" }}>Confirm</div>
+              ),
+            },
+            {
+              render: <div style={{ color: "red" }}>Reject</div>,
+            },
+          ];
+        }
+        return (
+          <Dropdown trigger="hover" overlay={overl}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                cursor: "pointer",
+                padding: 10,
+              }}
+            >
+              <div
+                style={{
+                  borderRadius: "100%",
+                  height: 5,
+                  width: 5,
+                  backgroundColor: "black",
+                }}
+              />
+              <div
+                style={{
+                  borderRadius: "100%",
+                  height: 5,
+                  width: 5,
+                  backgroundColor: "black",
+                }}
+              />
+              <div
+                style={{
+                  borderRadius: "100%",
+                  height: 5,
+                  width: 5,
+                  backgroundColor: "black",
+                }}
+              />
+            </div>
+          </Dropdown>
+        );
+      },
+      header: () => <span>Action</span>,
+      footer: (info) => info.column.id,
+    }),
+  ];
+
   useEffect(() => {
-    if (qDonasiHistory.data?.data) {
+    if (qDonasiHistory.data?.data && qUser.data?.data) {
       setData(qDonasiHistory.data?.data);
     }
-  }, [qDonasiHistory?.data?.data]);
+  }, [qDonasiHistory?.data?.data, qUser.data?.data]);
 
   const table = useReactTable({
     data,
