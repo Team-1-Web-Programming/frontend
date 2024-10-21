@@ -6,17 +6,23 @@ export const editUser = async (data: {
   password: string;
   password_confirmation: string;
 }) => {
-  const fd = new FormData();
+  try {
+    const fd = new FormData();
 
-  fd.append("name", data.name);
-  fd.append(
-    `photo_profile`,
-    data.photo_profile,
-    `photo_profile-${Date.now()}.jpg`
-  );
-  fd.append("password", data.password);
-  fd.append("password_confirmation", data.password_confirmation);
+    fd.append("name", data?.name);
+    if (data.photo_profile) {
+      fd.append(
+        `photo_profile`,
+        data?.photo_profile,
+        `photo_profile-${Date.now()}.jpg`
+      );
+    }
+    fd.append("password", data?.password);
+    fd.append("password_confirmation", data?.password_confirmation);
 
-  const res = await apiClient.post("/user", fd);
-  return res;
+    const res = await apiClient.post("/user", fd);
+    return res;
+  } catch (error) {
+    throw error;
+  }
 };

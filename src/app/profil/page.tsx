@@ -5,12 +5,13 @@ import Switch from "@/components/Switch";
 import TextInput from "@/components/TextInput";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { editUser } from "../api/user/edit";
 import { toast } from "react-toastify";
 import { getUser } from "../api/user";
 import { queryClient } from "@/layout/Layout";
+import { ErrorMessage } from "@hookform/error-message";
 
 type TEditProfil = {
   name: string;
@@ -23,22 +24,26 @@ const settings = Array.from({ length: 5 }, (_, i) => i + 1);
 export default function Profil() {
   const [profil, setProfil] = useState<any>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const { register, handleSubmit, formState, setValue } = useForm<TEditProfil>({
-    defaultValues: {
-      name: "",
-      photo_profile: null,
-      password: "",
-      password_confirmation: "",
-    },
-  });
 
   const qUser = useQuery({
     queryKey: ["/user"],
     queryFn: getUser,
   });
 
+  const { register, handleSubmit, formState, setValue, reset } =
+    useForm<TEditProfil>({
+      defaultValues: {
+        name: qUser?.data?.data?.name,
+        photo_profile: qUser?.data?.data?.photo_profile,
+        password: "",
+        password_confirmation: "",
+        ...qUser.data?.data,
+      },
+    });
+
   const { mutate, isPending } = useMutation({
     mutationFn: editUser,
+    mutationKey: ['/edit-user']
   });
 
   const onSubmit = (data: TEditProfil) => {
@@ -49,8 +54,17 @@ export default function Profil() {
           queryKey: ["/user"],
         });
       },
+      onSettled() {
+        setIsEditing(false)
+      }
     });
   };
+
+  useEffect(() => {
+    if (!qUser.isLoading && qUser.data?.data) {
+      reset(qUser.data?.data);
+    }
+  }, [qUser.isLoading]);
 
   return (
     <main
@@ -78,18 +92,20 @@ export default function Profil() {
               alt="any"
               width={200}
               height={200}
-              style={{ borderRadius: 200 }}
+              style={{ borderRadius: '50%', objectFit: 'cover' }}
             />
-            <ImageUpload
-              onCropped={(img) => {
-                setProfil(img?.croppedImage);
-                setValue("photo_profile", img.croppedBlob);
-              }}
-            >
-              <div>
-                <Button type="secondary">Ganti Foto Profil</Button>
-              </div>
-            </ImageUpload>
+            {isEditing && (
+              <ImageUpload
+                onCropped={(img) => {
+                  setProfil(img?.croppedImage);
+                  setValue("photo_profile", img.croppedBlob);
+                }}
+              >
+                <div>
+                  <Button type="secondary">Ganti Foto Profil</Button>
+                </div>
+              </ImageUpload>
+            )}
           </div>
           <form
             style={{
@@ -103,17 +119,34 @@ export default function Profil() {
               <TextInput
                 name="name"
                 label="Nama"
+                type="name"
+                placeholder="Nama"
                 disabled={!isEditing}
                 register={register}
+              />
+              <ErrorMessage
+                name="name"
+                errors={formState.errors}
+                render={(data) => (
+                  <p style={{ color: "red" }}>{data?.message}</p>
+                )}
               />
             </div>
             <div>
               <TextInput
                 name="password"
                 label="Password"
+                placeholder="Password"
                 disabled={!isEditing}
                 type="password"
                 register={register}
+              />
+              <ErrorMessage
+                name="password"
+                errors={formState.errors}
+                render={(data) => (
+                  <p style={{ color: "red" }}>{data?.message}</p>
+                )}
               />
             </div>
             {isEditing && (
@@ -122,25 +155,35 @@ export default function Profil() {
                   name="password_confirmation"
                   label="Konfirmasi Password"
                   disabled={!isEditing}
+                  placeholder="Konfirmasi Password"
                   type="password"
                   register={register}
+                />
+                <ErrorMessage
+                  name="password_confirmation"
+                  errors={formState.errors}
+                  render={(data) => (
+                    <p style={{ color: "red" }}>{data?.message}</p>
+                  )}
                 />
               </div>
             )}
           </form>
           <div style={{ marginTop: 20 }}>
-            <Button
-              onClick={() => {
-                if (isEditing) {
-                  return handleSubmit(onSubmit);
-                } else {
+            {isEditing && (
+              <Button onClick={handleSubmit(onSubmit)} loading={isPending}>
+                Save
+              </Button>
+            )}
+            {!isEditing && (
+              <Button
+                onClick={() => {
                   setIsEditing(true);
-                }
-              }}
-              loading={isEditing && isPending}
-            >
-              {isEditing ? `Save` : "Edit"}
-            </Button>
+                }}
+              >
+                Edit
+              </Button>
+            )}
           </div>
         </div>
       </div>

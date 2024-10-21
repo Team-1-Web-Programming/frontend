@@ -21,6 +21,9 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response?.status === 401) {
+      return Promise.reject(error);
+    }
     if (axios.isAxiosError(error)) {
       const message =
         error.response?.data?.message || "An error occurred. Please try again.";

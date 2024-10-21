@@ -173,9 +173,13 @@ export default function Header(props: {
                 ]}
               >
                 <Image
-                  src="/profile.png"
+                  src={
+                    qUser?.data?.data?.photo_profile ||
+                    `https://avatar.oxro.io/avatar.svg?name=${qUser?.data?.data?.name}&caps=3&bold=true`
+                  }
                   width={24}
                   height={24}
+                  style={{ borderRadius: "60%", objectFit: "cover" }}
                   alt="profile"
                 />
               </Dropdown>

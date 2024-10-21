@@ -6,8 +6,11 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import styles from "./DonasiList.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Dropdown from "@/components/Dropdown";
+import { useQuery } from "@tanstack/react-query";
+import { getUserDonation } from "@/app/api/user/donation";
+import dayjs from "dayjs";
 
 type Person = {
   id: number;
@@ -326,8 +329,13 @@ const columns = [
   }),
   columnHelper.accessor((row) => row.created_at, {
     id: "created_at",
-    cell: (info) => <i>{info.getValue()}</i>,
+    cell: (info) => <i>{dayjs(info.getValue()).format("DD MMMM YYYY")}</i>,
     header: () => <span>Date</span>,
+    footer: (info) => info.column.id,
+  }),
+  columnHelper.accessor("donor.name", {
+    header: () => "Donor",
+    cell: (info) => info.renderValue(),
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor("donee.name", {
@@ -336,7 +344,7 @@ const columns = [
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor("product.address_id", {
-    header: () => <span>Location</span>,
+    header: () => <span>Location_ID</span>,
     footer: (info) => info.column.id,
   }),
   columnHelper.accessor("amount", {
@@ -418,7 +426,18 @@ const columns = [
 ];
 
 export default function DonasiList() {
-  const [data, _setData] = useState(() => [...defaultData]);
+  const [data, setData] = useState(() => [...defaultData]);
+
+  const qDonasiHistory = useQuery({
+    queryFn: getUserDonation,
+    queryKey: ["/user/donation"],
+  });
+
+  useEffect(() => {
+    if (qDonasiHistory.data?.data) {
+      setData(qDonasiHistory.data?.data);
+    }
+  }, [qDonasiHistory?.data?.data]);
 
   const table = useReactTable({
     data,
