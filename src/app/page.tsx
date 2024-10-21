@@ -92,6 +92,8 @@ function Home() {
               key={el?.id}
               title={el?.title}
               imgSrc={el?.donation_product_media?.[0]?.url}
+              city={el?.address?.city}
+              province={el?.address?.province}
               redirect={`/kategori/${el?.donation_category?.[0]?.title}/${el?.id}`}
             />
           ))}

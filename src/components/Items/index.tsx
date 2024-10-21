@@ -6,10 +6,14 @@ import Link from "next/link";
 export default function ItemCard({
   title = "Barang",
   imgSrc = "https://picsum.photos/360/450",
+  city,
+  province,
   redirect = "",
 }: {
   title?: string;
   imgSrc?: string;
+  city?: string;
+  province?: string;
   redirect?: string;
 }) {
   return (
@@ -32,20 +36,9 @@ export default function ItemCard({
               width={16}
               height={16}
             />
-            <span>500m</span>
-          </div>
-          <div className={styles.detail}>
-            <Image
-              className={styles.icon}
-              src={"/eye.svg"}
-              alt="eye"
-              width={16}
-              height={16}
-            />
-            <span>1.234</span>
+            <span>{city}, {province}</span>
           </div>
         </div>
-        <div className={styles.rightDetail}>123 Reviews</div>
       </div>
       <div className={styles.buttonContainer}>
         <Link href={redirect}>
